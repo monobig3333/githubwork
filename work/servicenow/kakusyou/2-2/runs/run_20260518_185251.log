@@ -1,0 +1,48 @@
+Start: 2026年 5月18日 月曜日 18時52分51秒 JST
+2026-05-18 18:52:52,382 [INFO] Logged in as mono
+2026-05-18 18:52:52,382 [INFO] Fetching hostids for prefix test-servicenow-monohyouka- ...
+2026-05-18 18:52:52,711 [INFO] Found 30000 hosts matching prefix
+2026-05-18 18:52:52,735 [INFO] In-range hosts: 29999 / 30000 requested
+2026-05-18 18:52:52,737 [INFO] ============================================================
+2026-05-18 18:52:52,737 [INFO] Zabbix URL:   https://10.249.73.66/zabbix/api_jsonrpc.php
+2026-05-18 18:52:52,737 [INFO] Script ID:    4
+2026-05-18 18:52:52,737 [INFO] Total sends:  30000
+2026-05-18 18:52:52,737 [INFO] Target rate:  50.0 req/s
+2026-05-18 18:52:52,737 [INFO] Parallel:     20 workers
+2026-05-18 18:52:52,737 [INFO] Verify TLS:   False
+2026-05-18 18:52:52,737 [INFO] ============================================================
+2026-05-18 18:52:54,718 [INFO] Progress: 100/30000 | effective=50.5 req/s
+2026-05-18 18:52:56,718 [INFO] Progress: 200/30000 | effective=50.2 req/s
+2026-05-18 18:52:58,720 [INFO] Progress: 300/30000 | effective=50.1 req/s
+2026-05-18 18:53:00,722 [INFO] Progress: 400/30000 | effective=50.1 req/s
+2026-05-18 18:53:02,721 [INFO] Progress: 500/30000 | effective=50.1 req/s
+2026-05-18 18:53:04,717 [INFO] Progress: 600/30000 | effective=50.1 req/s
+2026-05-18 18:53:06,720 [INFO] Progress: 700/30000 | effective=50.1 req/s
+2026-05-18 18:53:08,717 [INFO] Progress: 800/30000 | effective=50.1 req/s
+2026-05-18 18:53:10,721 [INFO] Progress: 900/30000 | effective=50.0 req/s
+2026-05-18 18:53:12,717 [INFO] Progress: 1000/30000 | effective=50.0 req/s
+2026-05-18 18:53:14,719 [INFO] Progress: 1100/30000 | effective=50.0 req/s
+2026-05-18 18:53:16,716 [INFO] Progress: 1200/30000 | effective=50.0 req/s
+2026-05-18 18:53:18,716 [INFO] Progress: 1300/30000 | effective=50.0 req/s
+2026-05-18 18:53:20,716 [INFO] Progress: 1400/30000 | effective=50.0 req/s
+2026-05-18 18:53:22,717 [INFO] Progress: 1500/30000 | effective=50.0 req/s
+2026-05-18 18:53:24,719 [INFO] Progress: 1600/30000 | effective=50.0 req/s
+2026-05-18 18:53:26,720 [INFO] Progress: 1700/30000 | effective=50.0 req/s
+2026-05-18 18:53:28,715 [INFO] Progress: 1800/30000 | effective=50.0 req/s
+2026-05-18 18:53:30,715 [INFO] Progress: 1900/30000 | effective=50.0 req/s
+2026-05-18 18:53:32,717 [INFO] Progress: 2000/30000 | effective=50.0 req/s
+2026-05-18 18:53:34,716 [INFO] Progress: 2100/30000 | effective=50.0 req/s
+2026-05-18 18:53:36,715 [INFO] Progress: 2200/30000 | effective=50.0 req/s
+2026-05-18 18:53:38,718 [INFO] Progress: 2300/30000 | effective=50.0 req/s
+2026-05-18 18:53:40,716 [INFO] Progress: 2400/30000 | effective=50.0 req/s
+2026-05-18 18:53:42,716 [INFO] Progress: 2500/30000 | effective=50.0 req/s
+2026-05-18 18:53:44,715 [INFO] Progress: 2600/30000 | effective=50.0 req/s
+2026-05-18 18:53:46,716 [INFO] Progress: 2700/30000 | effective=50.0 req/s
+2026-05-18 18:53:48,715 [INFO] Progress: 2800/30000 | effective=50.0 req/s
+2026-05-18 18:53:50,715 [INFO] Progress: 2900/30000 | effective=50.0 req/s
+2026-05-18 18:53:52,717 [INFO] Progress: 3000/30000 | effective=50.0 req/s
+2026-05-18 18:53:54,716 [INFO] Progress: 3100/30000 | effective=50.0 req/s
+2026-05-18 18:53:56,716 [INFO] Progress: 3200/30000 | effective=50.0 req/s
+2026-05-18 18:53:58,717 [INFO] Progress: 3300/30000 | effective=50.0 req/s
+2026-05-18 18:54:00,715 [INFO] Progress: 3400/30000 | effective=50.0 req/s
+2026-05-18 18:54:02,716 [INFO] Progress: 3500/30000 | effective=50.0 req/s

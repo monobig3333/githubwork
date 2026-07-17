@@ -1,0 +1,18 @@
+確証
+
+interval 30s
+Thu 28 May 2026 04:31:40 PM JST
+*** Script: [MONITOR] 2026-05-28 16:51:24 | sig=647408 | last_run=2026-05-28 07:51:05 | running=0 | status=Success
+bash zabbixid.sh
+{"jsonrpc":"2.0","result":[{"eventid":"647409","name":"\u30c6\u30b9\u30c8\u30c8\u30ea\u30ac\u30fc","clock":"1779953500","severity":"3"}],"id":1}
+
+interval 15s
+Thu 28 May 2026 05:11:37 PM JST
+eventid":"707531
+*** Script: [MONITOR] 2026-05-28 17:29:15 | sig=707531 | last_run=2026-05-28 08:28:59 | running=0 | status=Success
+
+
+3回目　10s
+
+Thu 28 May 2026 05:57:17 PM JST
+eventid":"767653"

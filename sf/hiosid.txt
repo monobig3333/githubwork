@@ -1,0 +1,140 @@
+小野様
+
+いつもお世話になっております。
+運用G監視チーム　岩下です。
+
+お忙しいところ修正対応、ありがとうございます。
+
+下記IDを発行しましたのでよろしくお願いします。
+
+--
+【監視端末への登録のタイミングについてのお知らせ】
+
+   受け入れ資料の"HIOS監視一覧"への記載をお願いいたします。
+   運用受け入れ資料改版され次第、内容を確認し登録を実施いたします。
+
+   改版対象は　Backforce(AWS) (BSD3307)
+             
+   ※資料改版前等にアラームテスト実施をご希望される場合は、ご連絡ください。
+   監視端末への識別子の登録・テスト実施周知等を進めさせていただきます。
+
+******************************************************
+登録識別子：SFM010　(エス・エフ・エム・ゼロ・いち・ゼロ)
+
+サービス名：Backforce(AWS) (BSD3307)
+
+項目名称：SalesForce監視　Kizuna
+
+通知メッセージ：
+SalesForce監視のKizunaシステムでエラーが発生しました。
+
+対処メッセージ：
+「受入資料(BSD3307)のアラーム対応手順を参照してください。」
+
+通知内容サンプル
+件名:  SFM010 BSD3307  2025/05/14 16:13:17
+本文：
+    　2025/05/14 16:13:17 CRITICAL: Domain bigcs--st.sandbox
+        Resource DataStorageMB exceeds critical threshold: Utilization is
+        74.69% (Critical Threshold: 30.0%)\", \"account_id\": \"678315357599
+******************************************************
+
+******************************************************
+登録識別子：SFM020　(エス・エフ・エム・ゼロ・に・ゼロ)
+
+サービス名：Backforce(AWS) (BSD3307)
+
+項目名称：SalesForce監視　BIGLOBE光　coms
+
+通知メッセージ：
+SalesForce監視　BIGLOBE光　coms エラーが発生しました。
+
+対処メッセージ：
+「受入資料(BSD3307)のアラーム対応手順を参照してください。」
+
+通知内容サンプル
+件名: SFM020  BSD3307  2025/05/14 16:13:17
+本文：
+         2025/05/14 16:13:17 CRITICAL: Domain bigcs--st.sandbox
+         Resource DataStorageMB exceeds critical threshold: Utilization is
+         74.69% (Critical Threshold: 30.0%)\", \"account_id\": \"678315357599
+ ******************************************************
+
+******************************************************
+登録識別子：SFM030　(エス・エフ・エム・ゼロ・さん・ゼロ)
+
+サービス名：Backforce(AWS) (BSD3307)
+
+項目名称：SalesForce監視　インフラ
+
+通知メッセージ：
+SalesForce監視　インフラでエラーが発生しました。
+
+対処メッセージ：
+「受入資料(BSD3307)のアラーム対応手順を参照してください。」
+
+通知内容サンプル
+件名: SFM030 BSD3307 2025/05/14 16:13:17
+本文：
+          2025/05/14 16:13:17 CRITICAL: Domain {domain_name} Resource
+          {resource_name} exceeds
+          critical threshold: Utilization is {utilization:.2f}% (Critical
+          Threshold: {alarm2}%)
+******************************************************
+
+2025年5月16日(金) 17:20 小野雅弘 <mono@biglobe.co.jp>:
+岩下さん　また見逃してました。修正しました。
+
+メールで申請しないのもありかなあ。
+
+---------------------------------------------
+対象プラットフォーム：　AWS
+　　　　　登録識別子　　 ：　SFM010
+　　　　　サービスID　　 ：　BSD3307
+　　　　　サービス名　　　：　Backforce(AWS)
+　　　　　項目名称　　　：　SalesForce監視　Kizuna
+　　　　　通知メッセージ　：　SalesForce監視のKizunaシステムでエラーが発生しました。
+　　　　　対処メッセージ　：
+　　　　　　　　　　　　　　　「受入資料(BSD3307)のアラーム対応手順を参照してください。」
+　　　　　通知内容サンプル：
+                    件名:  SFM010 BSD3307  2025/05/14 16:13:17
+                    本文
+　　　　　　　　2025/05/14 16:13:17 CRITICAL: Domain bigcs--st.sandbox
+Resource DataStorageMB exceeds critical threshold: Utilization is
+74.69% (Critical Threshold: 30.0%)\", \"account_id\": \"678315357599
+
+----------------------------------
+対象プラットフォーム：　AWS
+　　　　　登録識別子　　 ：　SFM020
+　　　　　サービスID　　 ：　BSD3307
+　　　　　サービス名　　　：　Backforce(AWS)
+　　　　　項目名称　　　：　SalesForce監視　BIGLOBE光　coms
+　　　　　通知メッセージ　：SalesForce監視　BIGLOBE光　coms エラーが発生しました。
+　　　　　対処メッセージ
+　　　　　　　　　　　　　　　「受入資料(BSD3307)のアラーム対応手順を参照してください。」
+　　　　　通知内容サンプル：
+                    件名:  SFM020  BSD3307  2025/05/14 16:13:17
+                    本文
+　　　　　　　　2025/05/14 16:13:17 CRITICAL: Domain bigcs--st.sandbox
+Resource DataStorageMB exceeds critical threshold: Utilization is
+74.69% (Critical Threshold: 30.0%)\", \"account_id\": \"678315357599
+
+----------------------------------
+対象プラットフォーム：　AWS
+　　　　　登録識別子　　 ：　SFM030
+　　　　　サービスID　　 ：　BSD3307
+　　　　　サービス名　　　：　Backforce(AWS)
+　　　　　項目名称　　　：　SalesForce監視　インフラ
+　　　　　通知メッセージ　：　SalesForce監視　インフラでエラーが発生しました。
+
+　　　　　対処メッセージ　：　「受入資料(BSD3307)のアラーム対応手順を参照してください。」
+　　　　　通知内容サンプル：
+                    件名:  SFM030 BSD3307 2025/05/14 16:13:17
+                    本文
+　　　　　2025/05/14 16:13:17 CRITICAL: Domain {domain_name} Resource
+{resource_name} exceeds
+critical threshold: Utilization is {utilization:.2f}% (Critical
+Threshold: {alarm2}%)
+
+------------------------
+

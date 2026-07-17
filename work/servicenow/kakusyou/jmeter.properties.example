@@ -1,0 +1,28 @@
+# JMeter プロパティ
+# 実際は jmeter.properties という名前にコピーして編集する
+
+# === ServiceNow インスタンス ===
+snow.host=biglobedev.service-now.com
+
+# === OAuth Client Credentials ===
+snow.client_id=
+snow.client_secret=
+
+# === Pre-computed Basic Auth ===
+# Secret に特殊文字（, ) ! # ^ : ` 等）を含む場合、JMeter の __base64Encode 関数が
+# 引数として解釈してしまい壊れるため、Base64 を事前計算してここに入れる。
+#
+# macOS/Linux:
+#   CID='your_client_id'
+#   SEC='your_client_secret'
+#   printf '%s:%s' "$CID" "$SEC" | base64 | tr -d '\n'
+#
+# 結果文字列を下に貼り付け（パディング = まで含めて全部）。
+snow.basic_auth=
+
+# === 負荷シナリオ ===
+threads.normal=165
+threads.read_only=330
+ramp_up=60
+loop.count=10
+duration.sec=600

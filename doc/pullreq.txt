@@ -1,0 +1,10 @@
+# 目的
+API監視が失敗した場合　Cloudwatch metricへ送信する。
+
+# 概要
+* API監視でエラーが出た際にCloudwatch metricにdemension api_pathの最後の区切りで送る
+* 通知の定義は別のプルリで追加する
+
+# 残項目、課題
+* 実際に通知を飛ばす処理は別プルリで作成する。SNS通知以外にLambda Functionを起動することもできそう
+　cloudwatch Syntheticsと共通化するかは相談して決める

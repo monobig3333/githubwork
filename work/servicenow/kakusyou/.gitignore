@@ -1,0 +1,43 @@
+# === 秘匿情報 ===
+.env
+auth.json
+jmeter.properties
+
+# === Python ===
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# === テスト出力 ===
+report.html
+result_*.json
+**/result_*.json
+**/results/
+**/report/
+**/load.jtl
+**/result.jtl
+**/*.jtl
+**/logs/
+**/tmp_chunks/
+M-9/sent_keys.txt
+7-3/injected_ids.json
+M-4/logs/
+
+# === Playwright ===
+playwright-report/
+test-results/
+.playwright/
+.playwright-profile/
+
+# === IDE / OS ===
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# デバッグ出力
+_debug/

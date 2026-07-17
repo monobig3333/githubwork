@@ -1,0 +1,17 @@
+# 認証情報・秘密鍵
+*.pem
+*.key
+*.p12
+.env
+.env.*
+credentials
+config.local.*
+secrets/
+
+.DS_Store
+
+# チケット等ローカル秘匿値
+bin/ticket.local
+
+# Google Chat webhook/APIキー等の秘匿メモ
+sf/googlechat.txt

@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy EC2 instance with Nginx in specified VPC and Subnet without SSH access
+
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-072298436ce5cb0c4  # Update to the latest Amazon Linux AMI in your region
+      InstanceType: t3.micro
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          SubnetId: "subnet-025b7e4b5d9302b09"
+          GroupSet:
+            - !Ref SecurityGroup
+          AssociatePublicIpAddress: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-nginx-server
+      IamInstanceProfile: "monoec2basic"
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          dnf update -y
+          dnf install -y aws-cfn-bootstrap
+          /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource MyInstance --region ${AWS::Region}
+          # 以下を追加
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource MyInstance --region ${AWS::Region}
+
+    Metadata:
+      AWS::CloudFormation::Init:
+        config:
+          packages:
+            yum:
+              nginx: []
+          services:
+            systemd:  # sysvinitから変更
+              nginx:
+                enabled: true
+                ensureRunning: true
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP access
+      VpcId: "vpc-0a5d4f0b2d481b59a"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+
+Outputs:
+  InstanceId:
+    Description: The Instance ID
+    Value: !Ref MyInstance
+  PublicIp:
+    Description: The Public IP address of the instance
+    Value: !GetAtt MyInstance.PublicIp

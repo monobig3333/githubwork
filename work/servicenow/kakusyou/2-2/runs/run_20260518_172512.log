@@ -1,0 +1,356 @@
+Start: 2026年 5月18日 月曜日 17時25分12秒 JST
+2026-05-18 17:25:12,947 [INFO] Logged in as mono
+2026-05-18 17:25:12,947 [INFO] Fetching hostids for prefix test-servicenow-monohyouka- ...
+2026-05-18 17:25:13,469 [INFO] Found 30000 hosts matching prefix
+2026-05-18 17:25:13,513 [INFO] In-range hosts: 29999 / 30000 requested
+2026-05-18 17:25:13,518 [INFO] ============================================================
+2026-05-18 17:25:13,518 [INFO] Zabbix URL:   https://10.249.73.66/zabbix/api_jsonrpc.php
+2026-05-18 17:25:13,518 [INFO] Script ID:    4
+2026-05-18 17:25:13,518 [INFO] Total sends:  30000
+2026-05-18 17:25:13,518 [INFO] Target rate:  50.0 req/s
+2026-05-18 17:25:13,518 [INFO] Parallel:     20 workers
+2026-05-18 17:25:13,519 [INFO] Verify TLS:   False
+2026-05-18 17:25:13,519 [INFO] ============================================================
+2026-05-18 17:25:15,502 [INFO] Progress: 100/30000 | effective=50.4 req/s
+2026-05-18 17:25:17,501 [INFO] Progress: 200/30000 | effective=50.2 req/s
+2026-05-18 17:25:19,501 [INFO] Progress: 300/30000 | effective=50.1 req/s
+2026-05-18 17:25:21,502 [INFO] Progress: 400/30000 | effective=50.1 req/s
+2026-05-18 17:25:23,502 [INFO] Progress: 500/30000 | effective=50.1 req/s
+2026-05-18 17:25:25,498 [INFO] Progress: 600/30000 | effective=50.1 req/s
+2026-05-18 17:25:27,502 [INFO] Progress: 700/30000 | effective=50.1 req/s
+2026-05-18 17:25:29,500 [INFO] Progress: 800/30000 | effective=50.1 req/s
+2026-05-18 17:25:31,500 [INFO] Progress: 900/30000 | effective=50.0 req/s
+2026-05-18 17:25:33,500 [INFO] Progress: 1000/30000 | effective=50.0 req/s
+2026-05-18 17:25:35,501 [INFO] Progress: 1100/30000 | effective=50.0 req/s
+2026-05-18 17:25:37,498 [INFO] Progress: 1200/30000 | effective=50.0 req/s
+2026-05-18 17:25:39,499 [INFO] Progress: 1300/30000 | effective=50.0 req/s
+2026-05-18 17:25:41,500 [INFO] Progress: 1400/30000 | effective=50.0 req/s
+2026-05-18 17:25:43,499 [INFO] Progress: 1500/30000 | effective=50.0 req/s
+2026-05-18 17:25:45,500 [INFO] Progress: 1600/30000 | effective=50.0 req/s
+2026-05-18 17:25:47,500 [INFO] Progress: 1700/30000 | effective=50.0 req/s
+2026-05-18 17:25:49,498 [INFO] Progress: 1800/30000 | effective=50.0 req/s
+2026-05-18 17:25:51,498 [INFO] Progress: 1900/30000 | effective=50.0 req/s
+2026-05-18 17:25:53,498 [INFO] Progress: 2000/30000 | effective=50.0 req/s
+2026-05-18 17:25:55,499 [INFO] Progress: 2100/30000 | effective=50.0 req/s
+2026-05-18 17:25:57,500 [INFO] Progress: 2200/30000 | effective=50.0 req/s
+2026-05-18 17:25:59,500 [INFO] Progress: 2300/30000 | effective=50.0 req/s
+2026-05-18 17:26:01,499 [INFO] Progress: 2400/30000 | effective=50.0 req/s
+2026-05-18 17:26:03,500 [INFO] Progress: 2500/30000 | effective=50.0 req/s
+2026-05-18 17:26:05,498 [INFO] Progress: 2600/30000 | effective=50.0 req/s
+2026-05-18 17:26:07,499 [INFO] Progress: 2700/30000 | effective=50.0 req/s
+2026-05-18 17:26:09,496 [INFO] Progress: 2800/30000 | effective=50.0 req/s
+2026-05-18 17:26:11,497 [INFO] Progress: 2900/30000 | effective=50.0 req/s
+2026-05-18 17:26:12,398 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:26:12,449 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:26:13,497 [INFO] Progress: 3000/30000 | effective=50.0 req/s
+2026-05-18 17:26:15,497 [INFO] Progress: 3100/30000 | effective=50.0 req/s
+2026-05-18 17:26:17,497 [INFO] Progress: 3200/30000 | effective=50.0 req/s
+2026-05-18 17:26:19,498 [INFO] Progress: 3300/30000 | effective=50.0 req/s
+2026-05-18 17:26:21,498 [INFO] Progress: 3400/30000 | effective=50.0 req/s
+2026-05-18 17:26:23,496 [INFO] Progress: 3500/30000 | effective=50.0 req/s
+2026-05-18 17:26:25,498 [INFO] Progress: 3600/30000 | effective=50.0 req/s
+2026-05-18 17:26:27,497 [INFO] Progress: 3700/30000 | effective=50.0 req/s
+2026-05-18 17:26:29,497 [INFO] Progress: 3800/30000 | effective=50.0 req/s
+2026-05-18 17:26:31,495 [INFO] Progress: 3900/30000 | effective=50.0 req/s
+2026-05-18 17:26:33,496 [INFO] Progress: 4000/30000 | effective=50.0 req/s
+2026-05-18 17:26:35,498 [INFO] Progress: 4100/30000 | effective=50.0 req/s
+2026-05-18 17:26:37,495 [INFO] Progress: 4200/30000 | effective=50.0 req/s
+2026-05-18 17:26:39,497 [INFO] Progress: 4300/30000 | effective=50.0 req/s
+2026-05-18 17:26:41,497 [INFO] Progress: 4400/30000 | effective=50.0 req/s
+2026-05-18 17:26:43,496 [INFO] Progress: 4500/30000 | effective=50.0 req/s
+2026-05-18 17:26:45,495 [INFO] Progress: 4600/30000 | effective=50.0 req/s
+2026-05-18 17:26:47,494 [INFO] Progress: 4700/30000 | effective=50.0 req/s
+2026-05-18 17:26:49,498 [INFO] Progress: 4800/30000 | effective=50.0 req/s
+2026-05-18 17:26:51,495 [INFO] Progress: 4900/30000 | effective=50.0 req/s
+2026-05-18 17:26:53,496 [INFO] Progress: 5000/30000 | effective=50.0 req/s
+2026-05-18 17:26:55,496 [INFO] Progress: 5100/30000 | effective=50.0 req/s
+2026-05-18 17:26:57,496 [INFO] Progress: 5200/30000 | effective=50.0 req/s
+2026-05-18 17:26:59,494 [INFO] Progress: 5300/30000 | effective=50.0 req/s
+2026-05-18 17:27:01,495 [INFO] Progress: 5400/30000 | effective=50.0 req/s
+2026-05-18 17:27:02,669 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:27:02,672 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:27:02,705 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:27:02,711 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:27:03,495 [INFO] Progress: 5500/30000 | effective=50.0 req/s
+2026-05-18 17:27:05,493 [INFO] Progress: 5600/30000 | effective=50.0 req/s
+2026-05-18 17:27:07,495 [INFO] Progress: 5700/30000 | effective=50.0 req/s
+2026-05-18 17:27:09,494 [INFO] Progress: 5800/30000 | effective=50.0 req/s
+2026-05-18 17:27:11,494 [INFO] Progress: 5900/30000 | effective=50.0 req/s
+2026-05-18 17:27:13,497 [INFO] Progress: 6000/30000 | effective=50.0 req/s
+2026-05-18 17:27:15,497 [INFO] Progress: 6100/30000 | effective=50.0 req/s
+2026-05-18 17:27:17,497 [INFO] Progress: 6200/30000 | effective=50.0 req/s
+2026-05-18 17:27:19,496 [INFO] Progress: 6300/30000 | effective=50.0 req/s
+2026-05-18 17:27:21,496 [INFO] Progress: 6400/30000 | effective=50.0 req/s
+2026-05-18 17:27:23,497 [INFO] Progress: 6500/30000 | effective=50.0 req/s
+2026-05-18 17:27:25,493 [INFO] Progress: 6600/30000 | effective=50.0 req/s
+2026-05-18 17:27:27,495 [INFO] Progress: 6700/30000 | effective=50.0 req/s
+2026-05-18 17:27:29,495 [INFO] Progress: 6800/30000 | effective=50.0 req/s
+2026-05-18 17:27:31,492 [INFO] Progress: 6900/30000 | effective=50.0 req/s
+2026-05-18 17:27:33,492 [INFO] Progress: 7000/30000 | effective=50.0 req/s
+2026-05-18 17:27:35,495 [INFO] Progress: 7100/30000 | effective=50.0 req/s
+2026-05-18 17:27:37,494 [INFO] Progress: 7200/30000 | effective=50.0 req/s
+2026-05-18 17:27:39,494 [INFO] Progress: 7300/30000 | effective=50.0 req/s
+2026-05-18 17:27:41,491 [INFO] Progress: 7400/30000 | effective=50.0 req/s
+2026-05-18 17:27:43,495 [INFO] Progress: 7500/30000 | effective=50.0 req/s
+2026-05-18 17:27:45,491 [INFO] Progress: 7600/30000 | effective=50.0 req/s
+2026-05-18 17:27:47,491 [INFO] Progress: 7700/30000 | effective=50.0 req/s
+2026-05-18 17:27:49,494 [INFO] Progress: 7800/30000 | effective=50.0 req/s
+2026-05-18 17:27:51,491 [INFO] Progress: 7900/30000 | effective=50.0 req/s
+2026-05-18 17:27:53,494 [INFO] Progress: 8000/30000 | effective=50.0 req/s
+2026-05-18 17:27:55,492 [INFO] Progress: 8100/30000 | effective=50.0 req/s
+2026-05-18 17:27:57,494 [INFO] Progress: 8200/30000 | effective=50.0 req/s
+2026-05-18 17:27:59,495 [INFO] Progress: 8300/30000 | effective=50.0 req/s
+2026-05-18 17:28:01,492 [INFO] Progress: 8400/30000 | effective=50.0 req/s
+2026-05-18 17:28:03,492 [INFO] Progress: 8500/30000 | effective=50.0 req/s
+2026-05-18 17:28:05,493 [INFO] Progress: 8600/30000 | effective=50.0 req/s
+2026-05-18 17:28:07,495 [INFO] Progress: 8700/30000 | effective=50.0 req/s
+2026-05-18 17:28:09,492 [INFO] Progress: 8800/30000 | effective=50.0 req/s
+2026-05-18 17:28:11,492 [INFO] Progress: 8900/30000 | effective=50.0 req/s
+2026-05-18 17:28:13,493 [INFO] Progress: 9000/30000 | effective=50.0 req/s
+2026-05-18 17:28:15,492 [INFO] Progress: 9100/30000 | effective=50.0 req/s
+2026-05-18 17:28:17,493 [INFO] Progress: 9200/30000 | effective=50.0 req/s
+2026-05-18 17:28:19,490 [INFO] Progress: 9300/30000 | effective=50.0 req/s
+2026-05-18 17:28:21,492 [INFO] Progress: 9400/30000 | effective=50.0 req/s
+2026-05-18 17:28:23,492 [INFO] Progress: 9500/30000 | effective=50.0 req/s
+2026-05-18 17:28:25,492 [INFO] Progress: 9600/30000 | effective=50.0 req/s
+2026-05-18 17:28:27,508 [INFO] Progress: 9700/30000 | effective=50.0 req/s
+2026-05-18 17:28:29,491 [INFO] Progress: 9800/30000 | effective=50.0 req/s
+2026-05-18 17:28:31,489 [INFO] Progress: 9900/30000 | effective=50.0 req/s
+2026-05-18 17:28:33,493 [INFO] Progress: 10000/30000 | effective=50.0 req/s
+2026-05-18 17:28:35,491 [INFO] Progress: 10100/30000 | effective=50.0 req/s
+2026-05-18 17:28:37,492 [INFO] Progress: 10200/30000 | effective=50.0 req/s
+2026-05-18 17:28:39,489 [INFO] Progress: 10300/30000 | effective=50.0 req/s
+2026-05-18 17:28:41,491 [INFO] Progress: 10400/30000 | effective=50.0 req/s
+2026-05-18 17:28:43,489 [INFO] Progress: 10500/30000 | effective=50.0 req/s
+2026-05-18 17:28:45,493 [INFO] Progress: 10600/30000 | effective=50.0 req/s
+2026-05-18 17:28:47,491 [INFO] Progress: 10700/30000 | effective=50.0 req/s
+2026-05-18 17:28:49,492 [INFO] Progress: 10800/30000 | effective=50.0 req/s
+2026-05-18 17:28:51,489 [INFO] Progress: 10900/30000 | effective=50.0 req/s
+2026-05-18 17:28:53,489 [INFO] Progress: 11000/30000 | effective=50.0 req/s
+2026-05-18 17:28:55,500 [INFO] Progress: 11100/30000 | effective=50.0 req/s
+2026-05-18 17:28:57,490 [INFO] Progress: 11200/30000 | effective=50.0 req/s
+2026-05-18 17:28:59,491 [INFO] Progress: 11300/30000 | effective=50.0 req/s
+2026-05-18 17:29:01,490 [INFO] Progress: 11400/30000 | effective=50.0 req/s
+2026-05-18 17:29:03,491 [INFO] Progress: 11500/30000 | effective=50.0 req/s
+2026-05-18 17:29:05,491 [INFO] Progress: 11600/30000 | effective=50.0 req/s
+2026-05-18 17:29:07,489 [INFO] Progress: 11700/30000 | effective=50.0 req/s
+2026-05-18 17:29:09,491 [INFO] Progress: 11800/30000 | effective=50.0 req/s
+2026-05-18 17:29:10,033 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 7
+2026-05-18 17:29:10,039 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 5
+2026-05-18 17:29:10,051 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 7
+2026-05-18 17:29:11,490 [INFO] Progress: 11900/30000 | effective=50.0 req/s
+2026-05-18 17:29:13,491 [INFO] Progress: 12000/30000 | effective=50.0 req/s
+2026-05-18 17:29:15,487 [INFO] Progress: 12100/30000 | effective=50.0 req/s
+2026-05-18 17:29:17,490 [INFO] Progress: 12200/30000 | effective=50.0 req/s
+2026-05-18 17:29:19,488 [INFO] Progress: 12300/30000 | effective=50.0 req/s
+2026-05-18 17:29:21,488 [INFO] Progress: 12400/30000 | effective=50.0 req/s
+2026-05-18 17:29:23,487 [INFO] Progress: 12500/30000 | effective=50.0 req/s
+2026-05-18 17:29:25,490 [INFO] Progress: 12600/30000 | effective=50.0 req/s
+2026-05-18 17:29:27,486 [INFO] Progress: 12700/30000 | effective=50.0 req/s
+2026-05-18 17:29:29,490 [INFO] Progress: 12800/30000 | effective=50.0 req/s
+2026-05-18 17:29:31,488 [INFO] Progress: 12900/30000 | effective=50.0 req/s
+2026-05-18 17:29:33,487 [INFO] Progress: 13000/30000 | effective=50.0 req/s
+2026-05-18 17:29:35,488 [INFO] Progress: 13100/30000 | effective=50.0 req/s
+2026-05-18 17:29:37,490 [INFO] Progress: 13200/30000 | effective=50.0 req/s
+2026-05-18 17:29:39,489 [INFO] Progress: 13300/30000 | effective=50.0 req/s
+2026-05-18 17:29:41,488 [INFO] Progress: 13400/30000 | effective=50.0 req/s
+2026-05-18 17:29:43,487 [INFO] Progress: 13500/30000 | effective=50.0 req/s
+2026-05-18 17:29:45,486 [INFO] Progress: 13600/30000 | effective=50.0 req/s
+2026-05-18 17:29:47,487 [INFO] Progress: 13700/30000 | effective=50.0 req/s
+2026-05-18 17:29:49,489 [INFO] Progress: 13800/30000 | effective=50.0 req/s
+2026-05-18 17:29:51,488 [INFO] Progress: 13900/30000 | effective=50.0 req/s
+2026-05-18 17:29:53,489 [INFO] Progress: 14000/30000 | effective=50.0 req/s
+2026-05-18 17:29:55,486 [INFO] Progress: 14100/30000 | effective=50.0 req/s
+2026-05-18 17:29:57,487 [INFO] Progress: 14200/30000 | effective=50.0 req/s
+2026-05-18 17:29:59,487 [INFO] Progress: 14300/30000 | effective=50.0 req/s
+2026-05-18 17:30:01,487 [INFO] Progress: 14400/30000 | effective=50.0 req/s
+2026-05-18 17:30:03,485 [INFO] Progress: 14500/30000 | effective=50.0 req/s
+2026-05-18 17:30:05,488 [INFO] Progress: 14600/30000 | effective=50.0 req/s
+2026-05-18 17:30:07,486 [INFO] Progress: 14700/30000 | effective=50.0 req/s
+2026-05-18 17:30:09,487 [INFO] Progress: 14800/30000 | effective=50.0 req/s
+2026-05-18 17:30:11,486 [INFO] Progress: 14900/30000 | effective=50.0 req/s
+2026-05-18 17:30:13,487 [INFO] Progress: 15000/30000 | effective=50.0 req/s
+2026-05-18 17:30:15,486 [INFO] Progress: 15100/30000 | effective=50.0 req/s
+2026-05-18 17:30:17,487 [INFO] Progress: 15200/30000 | effective=50.0 req/s
+2026-05-18 17:30:19,486 [INFO] Progress: 15300/30000 | effective=50.0 req/s
+2026-05-18 17:30:21,487 [INFO] Progress: 15400/30000 | effective=50.0 req/s
+2026-05-18 17:30:23,487 [INFO] Progress: 15500/30000 | effective=50.0 req/s
+2026-05-18 17:30:25,487 [INFO] Progress: 15600/30000 | effective=50.0 req/s
+2026-05-18 17:30:27,487 [INFO] Progress: 15700/30000 | effective=50.0 req/s
+2026-05-18 17:30:29,485 [INFO] Progress: 15800/30000 | effective=50.0 req/s
+2026-05-18 17:30:31,485 [INFO] Progress: 15900/30000 | effective=50.0 req/s
+2026-05-18 17:30:33,487 [INFO] Progress: 16000/30000 | effective=50.0 req/s
+2026-05-18 17:30:35,486 [INFO] Progress: 16100/30000 | effective=50.0 req/s
+2026-05-18 17:30:37,485 [INFO] Progress: 16200/30000 | effective=50.0 req/s
+2026-05-18 17:30:39,486 [INFO] Progress: 16300/30000 | effective=50.0 req/s
+2026-05-18 17:30:41,485 [INFO] Progress: 16400/30000 | effective=50.0 req/s
+2026-05-18 17:30:43,486 [INFO] Progress: 16500/30000 | effective=50.0 req/s
+2026-05-18 17:30:45,486 [INFO] Progress: 16600/30000 | effective=50.0 req/s
+2026-05-18 17:30:47,485 [INFO] Progress: 16700/30000 | effective=50.0 req/s
+2026-05-18 17:30:49,484 [INFO] Progress: 16800/30000 | effective=50.0 req/s
+2026-05-18 17:30:51,482 [INFO] Progress: 16900/30000 | effective=50.0 req/s
+2026-05-18 17:30:53,486 [INFO] Progress: 17000/30000 | effective=50.0 req/s
+2026-05-18 17:30:55,483 [INFO] Progress: 17100/30000 | effective=50.0 req/s
+2026-05-18 17:30:57,484 [INFO] Progress: 17200/30000 | effective=50.0 req/s
+2026-05-18 17:30:59,483 [INFO] Progress: 17300/30000 | effective=50.0 req/s
+2026-05-18 17:31:01,484 [INFO] Progress: 17400/30000 | effective=50.0 req/s
+2026-05-18 17:31:03,483 [INFO] Progress: 17500/30000 | effective=50.0 req/s
+2026-05-18 17:31:05,483 [INFO] Progress: 17600/30000 | effective=50.0 req/s
+2026-05-18 17:31:07,483 [INFO] Progress: 17700/30000 | effective=50.0 req/s
+2026-05-18 17:31:09,483 [INFO] Progress: 17800/30000 | effective=50.0 req/s
+2026-05-18 17:31:11,481 [INFO] Progress: 17900/30000 | effective=50.0 req/s
+2026-05-18 17:31:13,483 [INFO] Progress: 18000/30000 | effective=50.0 req/s
+2026-05-18 17:31:15,481 [INFO] Progress: 18100/30000 | effective=50.0 req/s
+2026-05-18 17:31:17,481 [INFO] Progress: 18200/30000 | effective=50.0 req/s
+2026-05-18 17:31:19,482 [INFO] Progress: 18300/30000 | effective=50.0 req/s
+2026-05-18 17:31:21,483 [INFO] Progress: 18400/30000 | effective=50.0 req/s
+2026-05-18 17:31:23,482 [INFO] Progress: 18500/30000 | effective=50.0 req/s
+2026-05-18 17:31:25,483 [INFO] Progress: 18600/30000 | effective=50.0 req/s
+2026-05-18 17:31:27,485 [INFO] Progress: 18700/30000 | effective=50.0 req/s
+2026-05-18 17:31:29,481 [INFO] Progress: 18800/30000 | effective=50.0 req/s
+2026-05-18 17:31:31,482 [INFO] Progress: 18900/30000 | effective=50.0 req/s
+2026-05-18 17:31:33,480 [INFO] Progress: 19000/30000 | effective=50.0 req/s
+2026-05-18 17:31:35,481 [INFO] Progress: 19100/30000 | effective=50.0 req/s
+2026-05-18 17:31:37,480 [INFO] Progress: 19200/30000 | effective=50.0 req/s
+2026-05-18 17:31:39,483 [INFO] Progress: 19300/30000 | effective=50.0 req/s
+2026-05-18 17:31:41,480 [INFO] Progress: 19400/30000 | effective=50.0 req/s
+2026-05-18 17:31:43,480 [INFO] Progress: 19500/30000 | effective=50.0 req/s
+2026-05-18 17:31:45,481 [INFO] Progress: 19600/30000 | effective=50.0 req/s
+2026-05-18 17:31:47,481 [INFO] Progress: 19700/30000 | effective=50.0 req/s
+2026-05-18 17:31:49,482 [INFO] Progress: 19800/30000 | effective=50.0 req/s
+2026-05-18 17:31:51,482 [INFO] Progress: 19900/30000 | effective=50.0 req/s
+2026-05-18 17:31:53,481 [INFO] Progress: 20000/30000 | effective=50.0 req/s
+2026-05-18 17:31:55,481 [INFO] Progress: 20100/30000 | effective=50.0 req/s
+2026-05-18 17:31:57,481 [INFO] Progress: 20200/30000 | effective=50.0 req/s
+2026-05-18 17:31:59,482 [INFO] Progress: 20300/30000 | effective=50.0 req/s
+2026-05-18 17:32:01,480 [INFO] Progress: 20400/30000 | effective=50.0 req/s
+2026-05-18 17:32:03,480 [INFO] Progress: 20500/30000 | effective=50.0 req/s
+2026-05-18 17:32:05,479 [INFO] Progress: 20600/30000 | effective=50.0 req/s
+2026-05-18 17:32:07,478 [INFO] Progress: 20700/30000 | effective=50.0 req/s
+2026-05-18 17:32:09,481 [INFO] Progress: 20800/30000 | effective=50.0 req/s
+2026-05-18 17:32:11,482 [INFO] Progress: 20900/30000 | effective=50.0 req/s
+2026-05-18 17:32:13,479 [INFO] Progress: 21000/30000 | effective=50.0 req/s
+2026-05-18 17:32:15,479 [INFO] Progress: 21100/30000 | effective=50.0 req/s
+2026-05-18 17:32:17,478 [INFO] Progress: 21200/30000 | effective=50.0 req/s
+2026-05-18 17:32:19,480 [INFO] Progress: 21300/30000 | effective=50.0 req/s
+2026-05-18 17:32:21,479 [INFO] Progress: 21400/30000 | effective=50.0 req/s
+2026-05-18 17:32:23,482 [INFO] Progress: 21500/30000 | effective=50.0 req/s
+2026-05-18 17:32:25,479 [INFO] Progress: 21600/30000 | effective=50.0 req/s
+2026-05-18 17:32:27,481 [INFO] Progress: 21700/30000 | effective=50.0 req/s
+2026-05-18 17:32:29,479 [INFO] Progress: 21800/30000 | effective=50.0 req/s
+2026-05-18 17:32:31,482 [INFO] Progress: 21900/30000 | effective=50.0 req/s
+2026-05-18 17:32:33,477 [INFO] Progress: 22000/30000 | effective=50.0 req/s
+2026-05-18 17:32:35,478 [INFO] Progress: 22100/30000 | effective=50.0 req/s
+2026-05-18 17:32:37,478 [INFO] Progress: 22200/30000 | effective=50.0 req/s
+2026-05-18 17:32:39,476 [INFO] Progress: 22300/30000 | effective=50.0 req/s
+2026-05-18 17:32:41,480 [INFO] Progress: 22400/30000 | effective=50.0 req/s
+2026-05-18 17:32:43,477 [INFO] Progress: 22500/30000 | effective=50.0 req/s
+2026-05-18 17:32:45,477 [INFO] Progress: 22600/30000 | effective=50.0 req/s
+2026-05-18 17:32:47,476 [INFO] Progress: 22700/30000 | effective=50.0 req/s
+2026-05-18 17:32:49,480 [INFO] Progress: 22800/30000 | effective=50.0 req/s
+2026-05-18 17:32:51,479 [INFO] Progress: 22900/30000 | effective=50.0 req/s
+2026-05-18 17:32:53,476 [INFO] Progress: 23000/30000 | effective=50.0 req/s
+2026-05-18 17:32:55,478 [INFO] Progress: 23100/30000 | effective=50.0 req/s
+2026-05-18 17:32:57,477 [INFO] Progress: 23200/30000 | effective=50.0 req/s
+2026-05-18 17:32:59,477 [INFO] Progress: 23300/30000 | effective=50.0 req/s
+2026-05-18 17:33:01,477 [INFO] Progress: 23400/30000 | effective=50.0 req/s
+2026-05-18 17:33:03,475 [INFO] Progress: 23500/30000 | effective=50.0 req/s
+2026-05-18 17:33:05,477 [INFO] Progress: 23600/30000 | effective=50.0 req/s
+2026-05-18 17:33:07,476 [INFO] Progress: 23700/30000 | effective=50.0 req/s
+2026-05-18 17:33:09,475 [INFO] Progress: 23800/30000 | effective=50.0 req/s
+2026-05-18 17:33:11,479 [INFO] Progress: 23900/30000 | effective=50.0 req/s
+2026-05-18 17:33:13,478 [INFO] Progress: 24000/30000 | effective=50.0 req/s
+2026-05-18 17:33:15,477 [INFO] Progress: 24100/30000 | effective=50.0 req/s
+2026-05-18 17:33:17,477 [INFO] Progress: 24200/30000 | effective=50.0 req/s
+2026-05-18 17:33:19,478 [INFO] Progress: 24300/30000 | effective=50.0 req/s
+2026-05-18 17:33:21,478 [INFO] Progress: 24400/30000 | effective=50.0 req/s
+2026-05-18 17:33:23,476 [INFO] Progress: 24500/30000 | effective=50.0 req/s
+2026-05-18 17:33:25,477 [INFO] Progress: 24600/30000 | effective=50.0 req/s
+2026-05-18 17:33:27,476 [INFO] Progress: 24700/30000 | effective=50.0 req/s
+2026-05-18 17:33:29,475 [INFO] Progress: 24800/30000 | effective=50.0 req/s
+2026-05-18 17:33:31,477 [INFO] Progress: 24900/30000 | effective=50.0 req/s
+2026-05-18 17:33:33,475 [INFO] Progress: 25000/30000 | effective=50.0 req/s
+2026-05-18 17:33:35,475 [INFO] Progress: 25100/30000 | effective=50.0 req/s
+2026-05-18 17:33:37,476 [INFO] Progress: 25200/30000 | effective=50.0 req/s
+2026-05-18 17:33:39,476 [INFO] Progress: 25300/30000 | effective=50.0 req/s
+2026-05-18 17:33:41,474 [INFO] Progress: 25400/30000 | effective=50.0 req/s
+2026-05-18 17:33:43,476 [INFO] Progress: 25500/30000 | effective=50.0 req/s
+2026-05-18 17:33:45,476 [INFO] Progress: 25600/30000 | effective=50.0 req/s
+2026-05-18 17:33:47,478 [INFO] Progress: 25700/30000 | effective=50.0 req/s
+2026-05-18 17:33:49,476 [INFO] Progress: 25800/30000 | effective=50.0 req/s
+2026-05-18 17:33:51,476 [INFO] Progress: 25900/30000 | effective=50.0 req/s
+2026-05-18 17:33:53,475 [INFO] Progress: 26000/30000 | effective=50.0 req/s
+2026-05-18 17:33:55,475 [INFO] Progress: 26100/30000 | effective=50.0 req/s
+2026-05-18 17:33:57,475 [INFO] Progress: 26200/30000 | effective=50.0 req/s
+2026-05-18 17:33:59,474 [INFO] Progress: 26300/30000 | effective=50.0 req/s
+2026-05-18 17:34:01,477 [INFO] Progress: 26400/30000 | effective=50.0 req/s
+2026-05-18 17:34:03,477 [INFO] Progress: 26500/30000 | effective=50.0 req/s
+2026-05-18 17:34:05,472 [INFO] Progress: 26600/30000 | effective=50.0 req/s
+2026-05-18 17:34:07,472 [INFO] Progress: 26700/30000 | effective=50.0 req/s
+2026-05-18 17:34:09,475 [INFO] Progress: 26800/30000 | effective=50.0 req/s
+2026-05-18 17:34:11,474 [INFO] Progress: 26900/30000 | effective=50.0 req/s
+2026-05-18 17:34:13,476 [INFO] Progress: 27000/30000 | effective=50.0 req/s
+2026-05-18 17:34:15,472 [INFO] Progress: 27100/30000 | effective=50.0 req/s
+2026-05-18 17:34:17,473 [INFO] Progress: 27200/30000 | effective=50.0 req/s
+2026-05-18 17:34:19,476 [INFO] Progress: 27300/30000 | effective=50.0 req/s
+2026-05-18 17:34:21,474 [INFO] Progress: 27400/30000 | effective=50.0 req/s
+2026-05-18 17:34:23,476 [INFO] Progress: 27500/30000 | effective=50.0 req/s
+2026-05-18 17:34:25,473 [INFO] Progress: 27600/30000 | effective=50.0 req/s
+2026-05-18 17:34:27,475 [INFO] Progress: 27700/30000 | effective=50.0 req/s
+2026-05-18 17:34:29,474 [INFO] Progress: 27800/30000 | effective=50.0 req/s
+2026-05-18 17:34:31,474 [INFO] Progress: 27900/30000 | effective=50.0 req/s
+2026-05-18 17:34:33,473 [INFO] Progress: 28000/30000 | effective=50.0 req/s
+2026-05-18 17:34:35,473 [INFO] Progress: 28100/30000 | effective=50.0 req/s
+2026-05-18 17:34:37,472 [INFO] Progress: 28200/30000 | effective=50.0 req/s
+2026-05-18 17:34:39,472 [INFO] Progress: 28300/30000 | effective=50.0 req/s
+2026-05-18 17:34:41,474 [INFO] Progress: 28400/30000 | effective=50.0 req/s
+2026-05-18 17:34:43,470 [INFO] Progress: 28500/30000 | effective=50.0 req/s
+2026-05-18 17:34:45,472 [INFO] Progress: 28600/30000 | effective=50.0 req/s
+2026-05-18 17:34:47,472 [INFO] Progress: 28700/30000 | effective=50.0 req/s
+2026-05-18 17:34:49,470 [INFO] Progress: 28800/30000 | effective=50.0 req/s
+2026-05-18 17:34:51,474 [INFO] Progress: 28900/30000 | effective=50.0 req/s
+2026-05-18 17:34:53,470 [INFO] Progress: 29000/30000 | effective=50.0 req/s
+2026-05-18 17:34:55,473 [INFO] Progress: 29100/30000 | effective=50.0 req/s
+2026-05-18 17:34:57,472 [INFO] Progress: 29200/30000 | effective=50.0 req/s
+2026-05-18 17:34:59,473 [INFO] Progress: 29300/30000 | effective=50.0 req/s
+2026-05-18 17:35:01,473 [INFO] Progress: 29400/30000 | effective=50.0 req/s
+2026-05-18 17:35:03,473 [INFO] Progress: 29500/30000 | effective=50.0 req/s
+2026-05-18 17:35:05,471 [INFO] Progress: 29600/30000 | effective=50.0 req/s
+2026-05-18 17:35:07,471 [INFO] Progress: 29700/30000 | effective=50.0 req/s
+2026-05-18 17:35:09,471 [INFO] Progress: 29800/30000 | effective=50.0 req/s
+2026-05-18 17:35:11,469 [INFO] Progress: 29900/30000 | effective=50.0 req/s
+2026-05-18 17:35:13,471 [INFO] Progress: 30000/30000 | effective=50.0 req/s
+2026-05-18 17:35:16,422 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:35:16,422 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:35:16,422 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:35:16,423 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:35:16,424 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:35:46,551 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:35:46,551 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 17:39:12,021 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 8
+2026-05-18 17:44:38,097 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 9
+2026-05-18 17:44:38,097 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,131 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,134 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,142 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,160 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,166 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,175 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,178 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,187 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,210 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,212 [WARNING] Connection pool is full, discarding connection: 10.249.73.66. Connection pool size: 10
+2026-05-18 18:10:26,215 [INFO] ============================================================
+2026-05-18 18:10:26,215 [INFO] Total:     30000
+2026-05-18 18:10:26,215 [INFO] Success:   28443 (94.81%)
+2026-05-18 18:10:26,215 [INFO] Failed:    1557 (5.19%)
+2026-05-18 18:10:26,215 [INFO] Elapsed:   2712.8s
+2026-05-18 18:10:26,215 [INFO] Effective: 11.1 req/s
+2026-05-18 18:10:26,215 [INFO] Error sample:
+2026-05-18 18:10:26,215 [INFO]   test-servicenow-monohyouka-05574: HTTPSConnectionPool(host='10.249.73.66', port=443): Read timed out. (read timeout=30)
+2026-05-18 18:10:26,215 [INFO]   test-servicenow-monohyouka-05573: HTTPSConnectionPool(host='10.249.73.66', port=443): Read timed out. (read timeout=30)
+2026-05-18 18:10:26,215 [INFO]   test-servicenow-monohyouka-05572: HTTPSConnectionPool(host='10.249.73.66', port=443): Read timed out. (read timeout=30)
+2026-05-18 18:10:26,215 [INFO]   test-servicenow-monohyouka-05571: HTTPSConnectionPool(host='10.249.73.66', port=443): Read timed out. (read timeout=30)
+2026-05-18 18:10:26,215 [INFO]   test-servicenow-monohyouka-05570: HTTPSConnectionPool(host='10.249.73.66', port=443): Read timed out. (read timeout=30)
+2026-05-18 18:10:26,216 [INFO] Result saved: /Users/bx0815610/work/servicenow/kakusyou/2-2/result_2_2.json
+End:   2026年 5月18日 月曜日 18時10分26秒 JST

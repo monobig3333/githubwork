@@ -1,0 +1,282 @@
+{
+  "label": "N-4",
+  "instance": "biglobenonprod",
+  "test_start_utc": "2026-06-05 06:23:29",
+  "test_end_utc": "2026-06-05 06:33:30",
+  "duration_sec": 600,
+  "max_gap_threshold_sec": 60.0,
+  "event_count": 44,
+  "api_errors": 0,
+  "stats": {
+    "max_gap_sec": 40.0,
+    "avg_gap_sec": 13.347672001520793,
+    "events_per_min": 4.4
+  },
+  "judgment": "OK",
+  "events": [
+    {
+      "ts_observed_utc": "2026-06-05 06:24:00",
+      "sys_id": "a81567d1c391c310e7339b677a0131c6",
+      "sys_created_on_utc": "2026-06-05 06:24:00",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:24:02",
+      "sys_id": "b0152b55c3594b90fd241f977a0131ec",
+      "sys_created_on_utc": "2026-06-05 06:24:02",
+      "source": "SNMPv2 Generic Trap"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:24:20",
+      "sys_id": "d125a7d1c391c310e7339b677a0131b9",
+      "sys_created_on_utc": "2026-06-05 06:24:20",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:24:53",
+      "sys_id": "9d45a795c3594b90fd241f977a0131b9",
+      "sys_created_on_utc": "2026-06-05 06:24:52",
+      "source": "CloudWatchLogs"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:24:59",
+      "sys_id": "8b45ebd1c391c310e7339b677a0131df",
+      "sys_created_on_utc": "2026-06-05 06:24:59",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:25:18",
+      "sys_id": "a3556315c391c310e7339b677a013180",
+      "sys_created_on_utc": "2026-06-05 06:25:17",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:25:19",
+      "sys_id": "ef55a315c391c310e7339b677a01315e",
+      "sys_created_on_utc": "2026-06-05 06:25:18",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:25:20",
+      "sys_id": "7355e315c391c310e7339b677a013113",
+      "sys_created_on_utc": "2026-06-05 06:25:19",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:25:21",
+      "sys_id": "0c65a315c391c310e7339b677a0131c2",
+      "sys_created_on_utc": "2026-06-05 06:25:20",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:25:23",
+      "sys_id": "ec65a315c391c310e7339b677a0131c4",
+      "sys_created_on_utc": "2026-06-05 06:25:22",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:26:01",
+      "sys_id": "3d852b15c391c310e7339b677a0131bd",
+      "sys_created_on_utc": "2026-06-05 06:26:00",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:26:21",
+      "sys_id": "3e952f15c391c310e7339b677a0131f5",
+      "sys_created_on_utc": "2026-06-05 06:26:20",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:26:58",
+      "sys_id": "7fb5e7d9c3594b90fd241f977a01317c",
+      "sys_created_on_utc": "2026-06-05 06:26:57",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:26:59",
+      "sys_id": "90c52755c391c310e7339b677a013115",
+      "sys_created_on_utc": "2026-06-05 06:26:59",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:27:01",
+      "sys_id": "9cc5abd9c3594b90fd241f977a013170",
+      "sys_created_on_utc": "2026-06-05 06:27:00",
+      "source": "RDS"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:27:02",
+      "sys_id": "fcc5e3d9c3594b90fd241f977a013156",
+      "sys_created_on_utc": "2026-06-05 06:27:01",
+      "source": "SNMPv2 Generic Trap"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:27:03",
+      "sys_id": "b0c52fd9c3594b90fd241f977a013195",
+      "sys_created_on_utc": "2026-06-05 06:27:02",
+      "source": "SNMPv2 Generic Trap"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:27:04",
+      "sys_id": "11c5efd9c3594b90fd241f977a013147",
+      "sys_created_on_utc": "2026-06-05 06:27:04",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:27:05",
+      "sys_id": "e1c5231dc3594b90fd241f977a0131c2",
+      "sys_created_on_utc": "2026-06-05 06:27:05",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:27:21",
+      "sys_id": "a9d5af55c391c310e7339b677a01317c",
+      "sys_created_on_utc": "2026-06-05 06:27:20",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:27:40",
+      "sys_id": "82e56395c391c310e7339b677a013104",
+      "sys_created_on_utc": "2026-06-05 06:27:39",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:28:00",
+      "sys_id": "8ff5a395c391c310e7339b677a0131bf",
+      "sys_created_on_utc": "2026-06-05 06:27:59",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:28:29",
+      "sys_id": "ce166b95c391c310e7339b677a013142",
+      "sys_created_on_utc": "2026-06-05 06:28:28",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:28:40",
+      "sys_id": "74266f95c391c310e7339b677a01310d",
+      "sys_created_on_utc": "2026-06-05 06:28:39",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:29:00",
+      "sys_id": "2936af95c391c310e7339b677a0131a7",
+      "sys_created_on_utc": "2026-06-05 06:28:59",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:29:37",
+      "sys_id": "ba56ebd5c391c310e7339b677a013147",
+      "sys_created_on_utc": "2026-06-05 06:29:37",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:29:39",
+      "sys_id": "87562fd5c391c310e7339b677a01316c",
+      "sys_created_on_utc": "2026-06-05 06:29:38",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:29:40",
+      "sys_id": "df562fd5c391c310e7339b677a01319e",
+      "sys_created_on_utc": "2026-06-05 06:29:39",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:29:41",
+      "sys_id": "23566fd5c391c310e7339b677a013132",
+      "sys_created_on_utc": "2026-06-05 06:29:40",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:30:00",
+      "sys_id": "d076efd5c391c310e7339b677a013173",
+      "sys_created_on_utc": "2026-06-05 06:30:00",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:30:02",
+      "sys_id": "b87667ddc3594b90fd241f977a013184",
+      "sys_created_on_utc": "2026-06-05 06:30:02",
+      "source": "SNMPv2 Generic Trap"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:30:32",
+      "sys_id": "8496e319c391c310e7339b677a0131c9",
+      "sys_created_on_utc": "2026-06-05 06:30:32",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:30:40",
+      "sys_id": "42966719c391c310e7339b677a0131dd",
+      "sys_created_on_utc": "2026-06-05 06:30:40",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:31:00",
+      "sys_id": "0fa6ab15c391c310e7339b677a0131de",
+      "sys_created_on_utc": "2026-06-05 06:31:00",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:31:40",
+      "sys_id": "70d6a359c391c310e7339b677a0131e3",
+      "sys_created_on_utc": "2026-06-05 06:31:40",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:32:01",
+      "sys_id": "a1e6a759c391c310e7339b677a01315d",
+      "sys_created_on_utc": "2026-06-05 06:32:00",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:32:20",
+      "sys_id": "96f6e759c391c310e7339b677a0131ca",
+      "sys_created_on_utc": "2026-06-05 06:32:19",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:32:28",
+      "sys_id": "5c07e351c3994b90fd241f977a013143",
+      "sys_created_on_utc": "2026-06-05 06:32:27",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:32:29",
+      "sys_id": "a807e351c3994b90fd241f977a013180",
+      "sys_created_on_utc": "2026-06-05 06:32:28",
+      "source": "Triplエラー"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:32:30",
+      "sys_id": "f407eb59c391c310e7339b677a0131d8",
+      "sys_created_on_utc": "2026-06-05 06:32:29",
+      "source": "HIOS(AWS)"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:32:41",
+      "sys_id": "ef076f59c391c310e7339b677a01314f",
+      "sys_created_on_utc": "2026-06-05 06:32:40",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:33:02",
+      "sys_id": "74272351c3994b90fd241f977a013114",
+      "sys_created_on_utc": "2026-06-05 06:33:02",
+      "source": "SNMPv2 Generic Trap"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:33:10",
+      "sys_id": "6a27a3d5c391c310e7339b677a013159",
+      "sys_created_on_utc": "2026-06-05 06:33:09",
+      "source": "Zabbix"
+    },
+    {
+      "ts_observed_utc": "2026-06-05 06:33:21",
+      "sys_id": "a9372b99c391c310e7339b677a013149",
+      "sys_created_on_utc": "2026-06-05 06:33:21",
+      "source": "Zabbix"
+    }
+  ]
+}

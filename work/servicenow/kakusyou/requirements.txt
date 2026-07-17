@@ -1,0 +1,24 @@
+# Python 3.10 〜 3.14 を想定（バージョン固定は最小限）
+
+# Playwright（greenlet 依存 → 3.14 では 1.49+ が必要）
+playwright>=1.49.0
+pytest>=8.3.3
+pytest-playwright>=0.5.2
+pytest-html>=4.1.1
+pytest-base-url>=2.1.0
+
+# AWS Secrets Manager
+boto3>=1.35.0
+
+# HTTP/REST API
+requests>=2.32.3
+
+# Data processing（Python 3.14 ではpandas 2.3+ / numpy 2.2+ が必要）
+pandas>=2.3.0
+openpyxl>=3.1.5
+
+# 環境変数
+python-dotenv>=1.0.1
+
+# Zabbix（要件 2-2 用）
+zabbix-utils>=2.0.0
