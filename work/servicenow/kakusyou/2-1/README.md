@@ -9,7 +9,7 @@
 ## 実行
 ```bash
 jmeter -n -t 2-1/2-1_alarm_viewer_165.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -l 2-1/result.jtl -e -o 2-1/report/
 ```
 

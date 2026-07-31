@@ -9,7 +9,7 @@
 ## 実行
 ```bash
 jmeter -n -t M-3/M-3_mid_sustained_load.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -l M-3/result.jtl -e -o M-3/report/
 ```
 

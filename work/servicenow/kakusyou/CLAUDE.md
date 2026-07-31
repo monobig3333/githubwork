@@ -115,7 +115,7 @@ pytest 2-3/ -v -s          # -s は input() プロンプト表示のため必須
 ### JMeter 試験
 
 ```bash
-jmeter -n -t 1-2/1-2_concurrent_165.jmx -p jmeter.properties \
+jmeter -n -t 1-2/1-2_concurrent_165.jmx -q jmeter.properties \
   -l 1-2/result.jtl -e -o 1-2/report/
 # パラメタ上書き
 jmeter -n -t 1-2/...jmx -Jthreads=165 -Jramp_up=30 ...

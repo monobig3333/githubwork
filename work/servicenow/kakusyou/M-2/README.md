@@ -9,7 +9,7 @@
 ## 実行
 ```bash
 jmeter -n -t M-2/M-2_mid_throughput_max.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -l M-2/result.jtl -e -o M-2/report/
 ```
 

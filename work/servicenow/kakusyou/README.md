@@ -94,13 +94,13 @@ pytest -m "perf and not high_load"  # マーカーで絞り込み
 ```bash
 # 非GUI実行
 jmeter -n -t 1-2/1-2_concurrent_165.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -l 1-2/result.jtl \
   -e -o 1-2/report/
 
 # 軽量スモークテスト（1スレッドで疎通確認）
 jmeter -n -t 1-2/1-2_concurrent_165.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -Jthreads=1 -l /tmp/smoke.jtl
 ```
 

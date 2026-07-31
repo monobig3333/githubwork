@@ -9,7 +9,7 @@
 ## 実行
 ```bash
 jmeter -n -t 3-1/3-1_workflow_parallel.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -l 3-1/result.jtl -e -o 3-1/report/
 ```
 

@@ -12,7 +12,7 @@
 
 ```bash
 jmeter -n -t 1-2/1-2_concurrent_165.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -l 1-2/result.jtl \
   -e -o 1-2/report/
 ```

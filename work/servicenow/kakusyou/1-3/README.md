@@ -10,7 +10,7 @@
 ## 実行
 ```bash
 jmeter -n -t 1-3/1-3_concurrent_330_readonly.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -l 1-3/result.jtl -e -o 1-3/report/
 ```
 

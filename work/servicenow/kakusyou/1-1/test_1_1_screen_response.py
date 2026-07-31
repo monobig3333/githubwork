@@ -16,6 +16,7 @@
 """
 import json
 import logging
+import os
 import re
 from pathlib import Path
 
@@ -25,9 +26,16 @@ from _common.playwright_helpers import measure, snow_goto_and_wait, summarize
 
 logger = logging.getLogger(__name__)
 
-ITERATIONS = 10
+# 本番計測は 10 回。動作確認用に PERF_ITERATIONS=2 等で短縮できる。
+ITERATIONS = int(os.getenv("PERF_ITERATIONS", "10"))
 THRESHOLD_SEC = 3.0
-RESULT_PATH = Path(__file__).parent / "result_1_1.json"
+
+# PERF_ITERATIONS を指定した動作チェック時は、本番結果を上書きしないよう
+# result_1_1_smoke.json に書き出す。
+_IS_SMOKE = os.getenv("PERF_ITERATIONS") is not None
+RESULT_PATH = Path(__file__).parent / (
+    "result_1_1_smoke.json" if _IS_SMOKE else "result_1_1.json"
+)
 
 URL_INCIDENT_LIST = "/now/nav/ui/classic/params/target/incident_list.do"
 URL_CHANGE_NEW = "/now/nav/ui/classic/params/target/change_request.do"
@@ -98,6 +106,8 @@ class TestScreenResponse:
     @staticmethod
     def _assert_and_save(label: str, samples: list[float]) -> None:
         stats = summarize(samples)
+        stats["iterations"] = ITERATIONS
+        stats["smoke"] = _IS_SMOKE
         logger.info("[%s] %s", label, stats)
         out = {}
         if RESULT_PATH.exists():

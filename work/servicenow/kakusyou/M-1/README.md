@@ -14,7 +14,7 @@
 ## 実行
 ```bash
 jmeter -n -t M-1/M-1_mid_throughput_normal.jmx \
-  -p jmeter.properties \
+  -q jmeter.properties \
   -l M-1/result.jtl -e -o M-1/report/
 
 # MIDサーバ側ログ確認（並行）

@@ -2,6 +2,7 @@
 .env
 auth.json
 jmeter.properties
+jmeter.properties.bak_*
 
 # === Python ===
 .venv/

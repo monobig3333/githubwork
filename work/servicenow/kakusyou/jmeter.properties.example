@@ -2,7 +2,7 @@
 # 実際は jmeter.properties という名前にコピーして編集する
 
 # === ServiceNow インスタンス ===
-snow.host=biglobedev.service-now.com
+snow.host=biglobenonprod.service-now.com
 
 # === OAuth Client Credentials ===
 snow.client_id=
