@@ -93,7 +93,7 @@ python3 2-2/zabbix_load.py --total 30000 --rate 50
 ## 投入後の受信確認（ServiceNow 側）
 
 ```bash
-HOST=biglobenonprod.service-now.com
+HOST=biglobedev.service-now.com
 TOKEN=$(curl -s -u "$CID:$SEC" -d 'grant_type=client_credentials' \
   "https://$HOST/oauth_token.do" | jq -r '.access_token')
 

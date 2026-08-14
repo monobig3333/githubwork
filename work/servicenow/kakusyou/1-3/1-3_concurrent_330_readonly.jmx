@@ -9,7 +9,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="HOST" elementType="Argument">
             <stringProp name="Argument.name">HOST</stringProp>
-            <stringProp name="Argument.value">${__P(snow.host,biglobenonprod.service-now.com)}</stringProp>
+            <stringProp name="Argument.value">${__P(snow.host,biglobedev.service-now.com)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="CLIENT_ID" elementType="Argument">

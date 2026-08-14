@@ -70,12 +70,12 @@ def section(title: str) -> None:
 # 設定
 # --------------------------------------------------------------------------
 SNOW_BASE = os.getenv("SNOW_BASE_URL") or (
-    f"https://{os.getenv('SNOW_INSTANCE', 'biglobenonprod')}.service-now.com"
+    f"https://{os.getenv('SNOW_INSTANCE', 'biglobedev')}.service-now.com"
 )
 TIMEOUT = 30
 
-# 2026/7/31 決定: 再測定は全項目を biglobenonprod で実施する
-EXPECTED_INSTANCE = os.getenv("EXPECTED_INSTANCE", "biglobenonprod")
+# 対象インスタンス: 2026/7/31 は biglobenonprod、2026/8/14 に biglobedev へ変更
+EXPECTED_INSTANCE = os.getenv("EXPECTED_INSTANCE", "biglobedev")
 
 # 今回の再測定で実際に使う JMX (旧 JMX や実施済み項目の JMX はチェック対象外)
 TARGET_JMX = [
@@ -148,7 +148,7 @@ def check_env() -> None:
         _log("WARN", "env", f"任意キーが未設定: {', '.join(opt_missing)}")
     _log("INFO", "env", f"SNOW_BASE_URL = {SNOW_BASE}")
 
-    # インスタンスが biglobenonprod に統一されているか (計画書 2-4節)
+    # インスタンスが EXPECTED_INSTANCE に統一されているか (計画書 2-4節)
     if EXPECTED_INSTANCE in SNOW_BASE:
         _log("PASS", "env", f"SNOW_BASE_URL は {EXPECTED_INSTANCE} を指している")
     else:
@@ -156,7 +156,7 @@ def check_env() -> None:
             "FAIL",
             "env",
             f"SNOW_BASE_URL が {EXPECTED_INSTANCE} ではありません ({SNOW_BASE}) "
-            "— 再測定は全項目 biglobenonprod で実施する方針",
+            f"— 再測定は全項目 {EXPECTED_INSTANCE} で実施する方針",
         )
 
     jhost = _jmeter_props().get("snow.host", "")

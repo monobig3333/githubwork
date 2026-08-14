@@ -32,7 +32,7 @@ _PROFILE="${_SERVICERID}-${_ENV}-sep"
 . "$(dirname "${BASH_SOURCE[0]}")/.env"
 
 # ベースの一時クレデンシャルを取得
-source /Users/bx0815610/src/githubwork/bin/get_key2.sh "${AWS_TOKEN}"
+source /Users/bx0815610/githubwork/bin/get_key2.sh "${AWS_TOKEN}"
 
 # ${_PROFILE} プロファイルのロールを明示的に引き受け
 # (AWS_ACCESS_KEY_ID 等の環境変数がセットされていると AWS_PROFILE によるロール引き受けが

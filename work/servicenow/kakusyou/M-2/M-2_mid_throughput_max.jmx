@@ -7,7 +7,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="HOST" elementType="Argument">
             <stringProp name="Argument.name">HOST</stringProp>
-            <stringProp name="Argument.value">${__P(snow.host,biglobenonprod.service-now.com)}</stringProp>
+            <stringProp name="Argument.value">${__P(snow.host,biglobedev.service-now.com)}</stringProp>
           </elementProp>
           <elementProp name="CLIENT_ID" elementType="Argument">
             <stringProp name="Argument.name">CLIENT_ID</stringProp>
@@ -33,10 +33,6 @@
       <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers">
         <collectionProp name="HeaderManager.headers">
                               <elementProp name="Authorization" elementType="Header">
-            <stringProp name="Header.name">Authorization</stringProp>
-            <stringProp name="Header.value">Bearer ${__P(access_token)}</stringProp>
-          </elementProp>
-        <elementProp name="Authorization" elementType="Header">
             <stringProp name="Header.name">Authorization</stringProp>
             <stringProp name="Header.value">Bearer ${__P(access_token)}</stringProp>
           </elementProp>
@@ -135,11 +131,7 @@ log.info(&quot;OAuth token acquired: &quot; + (vars.get(&quot;access_token&quot;
       <hashTree>
         <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput 3000/min">
           <intProp name="calcMode">2</intProp>
-          <doubleProp>
-            <name>throughput</name>
-            <value>3000.0</value>
-            <savedValue>0.0</savedValue>
-          </doubleProp>
+          <stringProp name="throughput">${__P(throughput,3000)}</stringProp>
         </ConstantThroughputTimer>
         <hashTree/>
         <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="event counter">

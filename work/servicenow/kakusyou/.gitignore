@@ -1,5 +1,6 @@
 # === 秘匿情報 ===
 .env
+.env.bak_*
 auth.json
 jmeter.properties
 jmeter.properties.bak_*
@@ -42,3 +43,6 @@ test-results/
 
 # デバッグ出力
 _debug/
+
+# JMX バックアップ
+**/*.jmx.bak_*

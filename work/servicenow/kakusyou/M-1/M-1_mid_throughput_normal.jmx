@@ -9,7 +9,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="HOST" elementType="Argument">
             <stringProp name="Argument.name">HOST</stringProp>
-            <stringProp name="Argument.value">${__P(snow.host,biglobenonprod.service-now.com)}</stringProp>
+            <stringProp name="Argument.value">${__P(snow.host,biglobedev.service-now.com)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="CLIENT_ID" elementType="Argument">
@@ -167,7 +167,7 @@ log.info(&quot;OAuth token acquired: &quot; + (vars.get(&quot;access_token&quot;
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code Assertion">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="49586">200</stringProp>
+              <stringProp name="49587">201</stringProp>
             </collectionProp>
             <stringProp name="Assertion.custom_message">HTTP 200 でない</stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>

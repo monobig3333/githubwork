@@ -2,7 +2,7 @@
 """AWS Secrets Manager から ServiceNow OAuth の client_id / secret を取得する
 
 既定の Secret:
-    servicenow/api-test/biglobenonprod/admin-ai-api
+    servicenow/api-test/<SNOW_INSTANCE>/admin-ai-api  (既定: biglobedev)
 
 やること:
   1. Secret を取得し、client_id / client_secret に相当するキーを自動判別
@@ -12,7 +12,16 @@
 
 既定は dry-run。--write を付けるまでファイルは書き換えない。
 
+前提: AWS の一時クレデンシャルを取得済みであること。
+
+    source setup.sh big4180 prd
+
+setup.sh は sts assume-role の結果を AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY /
+AWS_SESSION_TOKEN として export する。**同じシェルセッション内で**本スクリプトを実行すること。
+セッションは時間で失効するため、期限切れ時は setup.sh を再実行する。
+
 使い方:
+    source setup.sh big4180 prd                                # 先に AWS 認証
     python3 _common/fetch_oauth_from_secrets.py                # 取得 + 疎通確認のみ
     python3 _common/fetch_oauth_from_secrets.py --write        # jmeter.properties も更新
     python3 _common/fetch_oauth_from_secrets.py --secret <名前> --host <ホスト>
@@ -40,8 +49,11 @@ try:
 except ImportError:
     pass
 
-DEFAULT_SECRET = "servicenow/api-test/biglobenonprod/admin-ai-api"
-DEFAULT_HOST = "biglobenonprod.service-now.com"
+# 対象インスタンス: 2026/8/14 に biglobedev へ変更
+# nonprod を使う場合は --secret / --host で上書きするか、環境変数 SNOW_OAUTH_SECRET_NAME を指定
+DEFAULT_INSTANCE = os.getenv("SNOW_INSTANCE", "biglobedev")
+DEFAULT_SECRET = f"servicenow/api-test/{DEFAULT_INSTANCE}/admin-ai-api"
+DEFAULT_HOST = f"{DEFAULT_INSTANCE}.service-now.com"
 JMETER_PROPS = ROOT / "jmeter.properties"
 
 # Secret のキー名は環境によって揺れるため候補を並べて拾う
@@ -71,11 +83,33 @@ def _pick(payload: dict, candidates: list[str]) -> tuple[str | None, str | None]
 def fetch_secret(secret_name: str, region: str) -> dict:
     try:
         import boto3
+        from botocore.exceptions import ClientError, NoCredentialsError
     except ImportError:
         sys.exit("boto3 が未導入です: pip install boto3 --break-system-packages")
 
+    if not os.getenv("AWS_ACCESS_KEY_ID") and not os.getenv("AWS_PROFILE"):
+        sys.exit(
+            "AWS の認証情報が見つかりません。先に同じシェルで実行してください:\n"
+            "    source setup.sh big4180 prd"
+        )
+
     client = boto3.client("secretsmanager", region_name=region)
-    resp = client.get_secret_value(SecretId=secret_name)
+    try:
+        resp = client.get_secret_value(SecretId=secret_name)
+    except NoCredentialsError:
+        sys.exit("AWS クレデンシャル未設定です。source setup.sh big4180 prd を実行してください")
+    except ClientError as e:
+        code = e.response.get("Error", {}).get("Code", "")
+        if code in ("ExpiredToken", "ExpiredTokenException", "InvalidClientTokenId"):
+            sys.exit(
+                "AWS の一時クレデンシャルが失効しています。"
+                "source setup.sh big4180 prd を実行し直してください"
+            )
+        if code == "ResourceNotFoundException":
+            sys.exit(f"Secret が見つかりません: {secret_name} (region={region})")
+        if code == "AccessDeniedException":
+            sys.exit(f"Secret への読み取り権限がありません: {secret_name}")
+        raise
     raw = resp.get("SecretString")
     if raw is None:
         raw = base64.b64decode(resp["SecretBinary"]).decode("utf-8")
@@ -160,10 +194,11 @@ def main() -> int:
     print(f"[ OK ] client_secret <- {sec_key} ({len(sec)} 文字)")
 
     if not args.skip_verify:
+        host_label = args.host.split(".")[0]
         ok, detail = verify_oauth(args.host, cid, sec)
         print(f"[{' OK ' if ok else 'FAIL'}] {args.host} /oauth_token.do : {detail}")
         if not ok:
-            print("       → Secret の値か、nonprod 側の OAuth アプリ登録を確認してください")
+            print(f"       → Secret の値か、{host_label} 側の OAuth アプリ登録を確認してください")
             return 1
 
     if args.write:
