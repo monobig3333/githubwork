@@ -46,3 +46,8 @@ _debug/
 
 # JMX バックアップ
 **/*.jmx.bak_*
+
+# 1-4 バッチ結果
+1-4/parts/
+login_check_*.png
+2-2/watch*.csv

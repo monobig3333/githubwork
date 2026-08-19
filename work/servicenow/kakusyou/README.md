@@ -1,11 +1,17 @@
-# 非機能要件 性能・可用性 確証テストコード
+# 性能・可用性・非正常系 確証テストコード
 
-ServiceNow 統合管理コンソール導入における非機能要件テストのソースコード一式。
+ServiceNow 統合管理コンソール導入における性能・可用性・非正常系テストのソースコード一式。
 要件No 単位でディレクトリを分け、それぞれ Playwright (Python) または Apache JMeter のスクリプトを配置している。
 
+- **対象インスタンス: `biglobedev`**（2026/8/14 以降の再測定）
+- 再測定の計画・進捗・作業ログ: **`再測定_実行計画.md`**
+- 開発時の注意点・過去の落とし穴: **`CLAUDE.md`**
+
 **Google SSO 認証対応**:
-- Playwright → 手動で1回ログインして `auth.json` に保存（8時間有効）
+- Playwright → 手動で1回ログインして `auth.json` に保存（**実測では約1時間で UI が不安定化するので長時間実行前に取り直す**）
 - JMeter → OAuth Client Credentials Grant でBearerトークン取得（SSO非依存）
+
+> ⚠️ `SNOW_USER` (ローカルユーザ) も dev では MFA が有効で、テスト内での自動再ログインには使えない。
 
 ## ディレクトリ構成
 
@@ -16,7 +22,9 @@ kakusyou/
 │   ├── servicenow_auth.py         OAuth認証（Python）
 │   ├── snow_client.py             ServiceNow REST APIクライアント
 │   ├── playwright_helpers.py      Playwright計測ヘルパー
-│   └── save_auth_state.py         storage_state保存スクリプト
+│   ├── save_auth_state.py         storage_state保存スクリプト
+│   ├── preflight_check.py         実測前の一括チェック
+│   └── fetch_oauth_from_secrets.py Secrets Manager から OAuth を取得
 ├── conftest.py                    pytest 共通フィクスチャ（auth.json自動読込）
 ├── pytest.ini                     pytest 設定
 ├── requirements.txt               Python 依存パッケージ
@@ -50,8 +58,29 @@ cp .env.example .env
 
 # JMeter プロパティ
 cp jmeter.properties.example jmeter.properties
-# jmeter.properties を編集：snow.client_id, snow.client_secret
 ```
+
+### OAuth クレデンシャルの取得（AWS Secrets Manager）
+
+`jmeter.properties` の client_id / secret は Secrets Manager から自動反映できる。
+
+```bash
+source setup.sh big4180 prd        # AWS 一時クレデンシャル（同じシェルで続ける）
+python3 _common/fetch_oauth_from_secrets.py --show-keys   # キー名確認
+python3 _common/fetch_oauth_from_secrets.py               # 疎通確認（dry-run）
+python3 _common/fetch_oauth_from_secrets.py --write       # 反映（バックアップ自動作成）
+```
+
+Secret は `.env` の `SNOW_INSTANCE` から `servicenow/api-test/<instance>/admin-ai-api` を参照する。
+
+### 実測前チェック
+
+```bash
+python3 _common/preflight_check.py
+```
+
+env / tools / auth / oauth / snow / mid / zabbix を一括確認する（負荷はかけない）。
+FAIL が残っている状態で実測に進まないこと。
 
 ## SSO 環境での認証フロー
 
@@ -91,18 +120,56 @@ pytest -m "perf and not high_load"  # マーカーで絞り込み
 
 ### JMeter
 
+**`-p` ではなく `-q` を使う。** `-p` は既定の jmeter.properties を置き換えてしまい、
+進捗サマリなどの既定設定が失われる。また `jmeter.properties` のグローバル値が
+全 JMX の `__P()` 既定を上書きするため、**条件は必ず `-J` で明示指定する。**
+
 ```bash
 # 非GUI実行
-jmeter -n -t 1-2/1-2_concurrent_165.jmx \
-  -q jmeter.properties \
-  -l 1-2/result.jtl \
-  -e -o 1-2/report/
+jmeter -n -t 1-2/1-2_concurrent_165.jmx -q jmeter.properties \
+  -Jthreads=165 -Jramp_up=60 -Jloop.count=10 \
+  -l 1-2/runs/run_$(date +%Y%m%d_%H%M%S).jtl
 
-# 軽量スモークテスト（1スレッドで疎通確認）
-jmeter -n -t 1-2/1-2_concurrent_165.jmx \
-  -q jmeter.properties \
-  -Jthreads=1 -l /tmp/smoke.jtl
+# 軽量スモークテスト
+jmeter -n -t 1-2/1-2_concurrent_165.jmx -q jmeter.properties \
+  -Jthreads=2 -Jramp_up=1 -Jloop.count=1 -l /tmp/smoke.jtl
 ```
+
+本番計測時の条件は `再測定_実行計画.md` の 4 章にまとめてある。
+
+### 1-4（1,000 件起票）
+
+```bash
+PERF_SUBMIT_MODE=submit pytest 1-4/ -v -s     # 本番 1,000 件（約 42 分）
+```
+
+`PERF_SUBMIT_MODE=submit` は**必須**。既定の「保存して留まる」では 4〜5 件で UI が停止する。
+
+| 環境変数 | 用途 |
+|---|---|
+| `PERF_TICKET_COUNT` | 件数を絞る（指定するとスモーク扱いで別ファイルに出力） |
+| `PERF_CONTEXT_EVERY` | N 件ごとにブラウザコンテキストを作り直す（既定 50） |
+| `PERF_MAX_CONSEC_FAIL` | 連続失敗で打ち切る（既定 10） |
+| `PERF_SLEEP_MS` | 起票間の待機 |
+
+### 2-2（Zabbix からのイベント投入）
+
+投入は **Zabbix サーバ上**で `zabbixtool/send_bulk.py` を実行する。
+`on.py` は 1 件ごとにプロセスを起動するため 12.5 件/秒しか出ず、要件を満たせない。
+
+```bash
+# Zabbix サーバ側
+python3 send_bulk.py --count 30000 --rate 50 --value 0    # ① 先に復旧（必須）
+python3 send_bulk.py --count 30000 --rate 50              # ② 投入（10 分）
+
+# Mac 側
+python3 2-2/watch_em_event.py --baseline <N> --interval 30       # 到達モニタ
+python3 2-2/analyze_arrival.py --since "HH:MM"                   # 到達分析
+python3 2-2/count_zabbix_events.py --from "HH:MM" --to "HH:MM"   # Zabbix 側の生成数
+```
+
+**①の復旧を省くと、トリガーが PROBLEM のままでイベントが生成されない。**
+詳細は `2-2/実行ガイド.md`。
 
 ## 要件一覧
 
@@ -139,5 +206,12 @@ jmeter -n -t 1-2/1-2_concurrent_165.jmx \
 |---|---|---|
 | pytest が `auth.json が存在しない…` でスキップ | storage_state 未生成 | `python3 _common/save_auth_state.py` を実行 |
 | Playwright で「ログインページにリダイレクト」 | auth.json のセッション期限切れ | 同上、auth.json を再生成 |
-| JMeter で OAuth setUp が 401 | client_id/secret 不正 or OAuth未有効化 | ServiceNow Application Registry で確認 |
+| **Playwright で `page.goto` が 30 秒タイムアウトし続ける** | auth.json のセッションが弱っている（実測で約1時間） | `save_auth_state.py` で取り直す。curl は通るのに UI だけ落ちるのが特徴 |
+| **1-4 が 4〜5 件で全滅する** | `sysverb_insert_and_stay` を使っている | `PERF_SUBMIT_MODE=submit` を指定 |
+| **JMeter が全件エラーだが responseCode は 201** | Response Assertion が 200 のみ許容 | JMX のアサーションに 201 を追加 |
+| **JMeter だけ 400 Bad Request（curl は成功）** | HeaderManager の `Authorization` が重複 | JMX のヘッダ定義を確認して重複を削除 |
+| JMeter で OAuth setUp が 401 | client_id/secret がそのインスタンス向けでない | OAuth アプリはインスタンス単位。`fetch_oauth_from_secrets.py --write` で反映 |
 | JMeter で 「access_token を取得できない」 | setUp Thread Group のレスポンス確認 | View Results Tree で `/oauth_token.do` のレスポンス確認 |
+| **Zabbix に投入したのにイベントが増えない** | トリガーが PROBLEM のまま | `send_bulk.py --value 0` で先に復旧させる |
+| **Zabbix の `host.get` が 0 件を返す** | `searchWildcardsEnabled` により完全一致になっている | `startSearch: True` を使う |
+| `jmeter ... -e -o report/` が `folder is not empty` | 前回のレポートが残っている | `-o report_$(date +%Y%m%d)/` のように別フォルダへ出す |

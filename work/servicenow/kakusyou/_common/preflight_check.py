@@ -448,9 +448,11 @@ def check_zabbix() -> None:
     # 負荷用ホスト
     prefix = os.getenv("ZABBIX_HOST_PREFIX", "test-servicenow-monohyouka-")
     try:
+        # searchWildcardsEnabled=true は "*" 必須で、付けないと完全一致になる。
+        # 前方一致は startSearch を使う（2026/8/19 に誤検知を修正）
         hosts = _zbx(
             "host.get",
-            {"output": ["hostid", "host"], "search": {"host": prefix}, "searchWildcardsEnabled": True},
+            {"output": ["hostid", "host"], "search": {"host": prefix}, "startSearch": True},
             token,
         ).get("result", [])
         n = len(hosts)

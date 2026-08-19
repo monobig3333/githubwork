@@ -7,10 +7,30 @@
 ServiceNow 統合管理コンソール導入の **性能・可用性・非正常系試験** 関連の試験コード・スクリプト・ドキュメント一式。
 
 - 対象 ServiceNow バージョン: **Zurich**
-- 対象インスタンス: `biglobenonprod` (主) / `biglobedev` (一部初期検証)
-- MID Server: 3 AZ 構成 (stg-1 / stg-2 / stg-3)
+- 対象インスタンス: **`biglobedev`** (2026/8/14 以降の再測定。2026/5〜6 の初回は nonprod 主体)
 - 試験項目数: 34 (出荷条件 33 + 参考値 1)
-- 全試験結果: **出荷条件 33 件すべて OK**
+- 初回試験 (2026/5〜6): 出荷条件 33 件すべて OK
+
+### 進行中: 再測定 (2026/7〜)
+
+システム全体見直し (イベントルール KDI 版 → 改版) に伴い **13 件を再測定中**。
+詳細は `再測定_実行計画.md`。
+
+| 状態 | 要件 |
+|---|---|
+| 完了・合格 | 1-1 / 1-2 / 1-3 / 1-4 / 2-1 / 3-1 / M-1 |
+| 完了・判定保留 | 2-2 (ServiceNow 側で 54.8% 欠損。dev の MID サイジング要因の可能性) |
+| 未実施 | M-2 / M-3 / 2-3 / 2-4-5 / 2-6 |
+
+### 環境差分 (重要)
+
+| | dev | nonprod |
+|---|---|---|
+| MID インスタンス | **t3.small** (2 vCPU / **2 GiB**) | t3.large (2 vCPU / 8 GiB) |
+| MID 台数 | 11 台登録・**Up は 1 台** (`mid-server-aws`) | 3 AZ 構成 (stg-1 / stg-2 / stg-3) |
+
+**dev は Excel の前提条件「3AZ 全ての MID サーバが稼働中」を満たさない。**
+高負荷系 (2-2 / M-x) の結果を製品の処理能力として報告する際は、この差分を必ず注記する。
 
 ## ディレクトリ構成
 
@@ -22,6 +42,9 @@ kakusyou/
 ├── 性能・可用性・非正常系試験_評価報告書.pptx     評価報告書 (slide deck)
 ├── 性能・可用性・非正常系試験_評価報告書.pdf      評価報告書 PDF 版
 │
+├── 再測定_実行計画.md              再測定 13 件の計画・経緯・作業ログ
+├── 動作確認_書き込み系.md          書き込みを伴う試験のスモーク手順
+│
 ├── _common/                       Python 共通モジュール
 │   ├── config.py                  環境設定 (.env 読込)
 │   ├── servicenow_auth.py         OAuth Client Credentials 認証 (一部試験用)
@@ -29,7 +52,9 @@ kakusyou/
 │   ├── playwright_helpers.py      Playwright 計測ヘルパー (iframe / measure / summarize)
 │   ├── save_auth_state.py         Google SSO + MFA storage_state 保存 (永続プロファイル方式)
 │   ├── check_form_login.py        SNOW_USER/SNOW_PASSWORD でフォームログイン疎通確認
-│   └── check_zabbix_connector.py  em_connector_instance の状態確認・継続モニタ
+│   ├── check_zabbix_connector.py  em_connector_instance の状態確認・継続モニタ
+│   ├── preflight_check.py         ★実測前の一括チェック (env/tools/auth/oauth/snow/mid/zabbix)
+│   └── fetch_oauth_from_secrets.py ★Secrets Manager から OAuth を取得し jmeter.properties へ反映
 │
 ├── N-common/                      非正常系試験 共通モジュール
 │   ├── verify_continuity.py       em_event 到達継続性 検証 (手元実行)
@@ -50,7 +75,19 @@ kakusyou/
 ├── M-1/ … M-9/                    MID サーバ 性能・可用性 要件
 ├── M10/                           外部試験成果物 (Trap 送信)
 ├── M11/                           外部試験成果物 (メール通知 ※参考値)
-└── N-1/ … N-5/                    MID サーバ 非正常系 (新設)
+├── N-1/ … N-5/                    MID サーバ 非正常系 (新設)
+│
+├── 2-2/                           アラーム処理性能
+│   ├── 実行ガイド.md               ★2-2 の手順書 (前提確認〜判定)
+│   ├── zabbix_load.py             Mac から script.execute で投入 (旧方式・低速)
+│   ├── watch_em_event.py          ★em_event 到達件数の定期モニタ
+│   ├── analyze_arrival.py         ★到達分析 (投入 window / 遅延 / 重複)
+│   └── count_zabbix_events.py     ★Zabbix 側のイベント生成数カウント (欠損の切り分け)
+│
+└── zabbixtool/                    Zabbix 操作ツール
+    ├── zabbix_bulk_copy_1.py      ホスト大量コピー (アイテム・トリガーごと)
+    ├── on.py / on.sh / off.sh     旧・イベント投入 (1 件ごとに zabbix_sender 起動)
+    └── send_bulk.py               ★新・一括投入 (zabbix_sender -i / 50 件/秒を達成)
 ```
 
 ## 試験項目マトリクス
@@ -191,6 +228,71 @@ bash /tmp/stress_disk_io.sh 600
 - 取りこぼしは Zabbix 側に残るため再送・運用回避可能
 - **次回製品修正までの暫定制限事項**
 
+### 8. JMeter の `-p` は既定 properties を「置き換える」
+- `-p jmeter.properties` は指定ファイルを**既定の jmeter.properties の代わりに**読み込む
+- リポジトリの `jmeter.properties` は 15 行しかないため、`summariser.name` 等の既定が全部失われ、
+  実行中の `summary = ...` 進捗が出なくなる
+- **追加読み込みは `-q`（`--addprop`）を使う。全コマンドを `-q` に統一済み (2026/7/31)**
+- あわせて `jmeter.properties` のグローバル値 (`ramp_up` / `loop.count` / `threads.normal`) が
+  全 JMX の `__P()` 既定を上書きするため、**条件は必ず `-J` で明示指定する**
+
+### 9. em_event / incident への POST は 201 を返す
+- Response Assertion を `200` のみにしていると**全件エラー判定**になる
+- M-1 がこの状態だった (2026/8/14 に修正)。M-3 はそもそもアサーションが無かった
+- 現在は M-1 / M-2 / M-3 とも `201` で統一
+
+### 10. HeaderManager の Authorization 重複で 400
+- M-2 / M-3 の JMX に `Authorization: Bearer ...` が **2 行**入っており、
+  ServiceNow 前段 (`snow_adc`) が重複ヘッダを **400 Bad Request** で拒否していた
+- curl では再現しないので JMeter 側のヘッダを疑うこと
+- レスポンス本文の採取:
+  `-Jjmeter.save.saveservice.output_format=xml -Jjmeter.save.saveservice.response_data=true`
+
+### 11. 1-4 は iframe 経由でないとフォームを操作できない
+- Classic UI のコンテンツは `iframe#gsft_main` の中。トップレベル `page` に `fill()` しても見つからない
+- `_common/playwright_helpers.snow_goto_and_wait()` が返すコンテンツロケーター経由で操作する
+
+### 12. 1-4 は「保存して留まる」を使うと 4〜5 件で UI が停止する
+- `sysverb_insert_and_stay` はレコードを開いたまま次へ進むため、セッション側にリソースが溜まり、
+  **4〜5 件で `page.goto` すら 30 秒タイムアウトするようになる**。再ログインで一時回復するだけ
+- **通常の Submit (`sysverb_insert`) に変えると 1,000 件を連続実行できる** (2026/8/19 実証)
+- Submit 方式では保存後に一覧へ戻るため、フォームから番号を取得できない。
+  `short_description` に `[run=<tag>]` を埋め込み、**実行後に REST で突合**する方式にしている
+- `#output_messages` は常時 DOM に存在し普段は `outputmsg_hide` で非表示。可視待ちは不安定
+
+### 13. Zabbix `host.get` の前方一致は `startSearch`
+- `searchWildcardsEnabled: true` を付けると `*` を明示しない限り**完全一致**になる
+- 前方一致は `{"search": {"host": prefix}, "startSearch": True}`
+- これを誤って「Zabbix の負荷用ホストが 0 件」と誤検知した (2026/8/14)。実際は 30,002 件存在
+
+### 14. Zabbix は OK→PROBLEM の遷移でしかイベントを生成しない
+- すでに PROBLEM のトリガーに再度 `value=1` を送っても**イベントは発生しない**
+- 連続して負荷試験を行う場合、**毎回、事前に復旧させる**こと
+  ```bash
+  python3 send_bulk.py --count 30000 --rate 50 --value 0   # 復旧
+  python3 send_bulk.py --count 30000 --rate 50             # 投入
+  ```
+
+### 15. `on.py` では要件レートが出ない → `send_bulk.py` を使う
+- `on.py` は 1 イベントごとに `zabbix_sender` プロセスを起動するため、`sleep(0.02)` を入れても
+  **実効 12.5 件/秒**しか出ない (30,000 件で約 40 分)
+- `send_bulk.py` は `zabbix_sender -i -` で 1 秒ごとに 50 件を一括送信し、
+  **30,000 件 / 600 秒 / 50.0 件/秒 / 失敗 0** を達成 (2026/8/19 実測)
+- 前回 nonprod で記録した「実効 17.6 rps・880 件失敗」も投入方式の問題だった可能性が高い
+
+### 16. `time_of_event` は Zabbix 側の発生時刻ではない
+- ServiceNow が登録時に上書きするため `sys_created_on` とほぼ同値 (差 0〜1 秒)
+- **投入側と ServiceNow 側の律速を切り分ける用途には使えない**
+- 切り分けには `2-2/count_zabbix_events.py` で Zabbix 側の生成数を数えて突合する
+
+### 17. dev の MID は t3.small で本番相当ではない
+- dev: t3.small (2 GiB) × Up 1 台 / nonprod: t3.large (8 GiB) × 3AZ
+- MID Java の Max ヒープ 4096MB (学び 3) は **2 GiB のマシンでは成立しない**
+- t3 は burstable。ベースライン (t3.small は 40%) を超える負荷が続くとクレジット枯渇で絞られる
+- 2026/8/19 の 2-2 で「13,500 件到達後 46 分間まったく進まない」という**停止**が発生。
+  性能不足ではなく処理系の停止を示す挙動で、OOM またはクレジット枯渇が疑われる
+- **高負荷系の結果を製品の限界として報告しないこと。環境差分の注記が必須**
+
 ## 環境変数 (.env)
 
 ```
@@ -245,8 +347,15 @@ soffice --headless --convert-to pdf 性能・可用性・非正常系試験_評�
 
 | やりたいこと | コマンド |
 |---|---|
+| 実測前の一括チェック | `python3 _common/preflight_check.py` |
+| OAuth を Secrets Manager から反映 | `source setup.sh big4180 prd` → `python3 _common/fetch_oauth_from_secrets.py --write` |
 | auth.json 取り直し | `python3 _common/save_auth_state.py` |
 | auth.json 生存確認 | `python3 2-3/api_probe.py` |
+| Zabbix へイベント投入 (サーバ上) | `python3 send_bulk.py --count 30000 --rate 50` (事前に `--value 0` で復旧) |
+| em_event 到達モニタ | `python3 2-2/watch_em_event.py --baseline <N> --interval 30` |
+| 到達分析 | `python3 2-2/analyze_arrival.py --since "HH:MM" --json 2-2/result_2_2.json` |
+| Zabbix 側の生成数確認 | `python3 2-2/count_zabbix_events.py --from "HH:MM" --to "HH:MM" --show-problems` |
+| 1-4 の 1,000 件起票 | `PERF_SUBMIT_MODE=submit pytest 1-4/ -v -s` |
 | 非正常系試験 N-1 | `python3 N-common/verify_continuity.py --label N-1 ...` + MID で `bash N-1/stress_disk_io.sh 600` |
 | Zabbix コネクタ確認 | `python3 N-common/check_zabbix_connector.py --name zabbix` |
 | Excel に試験結果書き込み | M-9 行をテンプレに copy_style + 実施日は `YYYY/M/D` 文字列 |

@@ -73,6 +73,18 @@ def main() -> int:
             browser.close()
             return 1
 
+        # MFA 要求画面に着地していないか（ログインフォームは消えるので誤判定しやすい）
+        if "multifactor" in page.url.lower() or "mfa" in page.url.lower():
+            print(f"NG: MFA が要求されました。最終URL={page.url}")
+            print("    このアカウントは SSO バイパスできても MFA が有効なため、")
+            print("    テスト内での自動再ログインには使用できません。")
+            print("    自動化するには MFA 免除のテスト用アカウントが必要です。")
+            shot = Path(__file__).resolve().parent.parent / "login_check_mfa.png"
+            page.screenshot(path=str(shot), full_page=True)
+            print(f"    screenshot: {shot}")
+            browser.close()
+            return 1
+
         print(f"OK: ログイン成功。最終URL={page.url}")
         # 確認のため認証済 API を一発叩く
         api_url = f"{settings.snow_base_url}/api/now/table/sys_user?sysparm_limit=1&sysparm_fields=user_name"
