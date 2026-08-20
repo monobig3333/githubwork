@@ -28,7 +28,7 @@ import os
 import statistics
 import sys
 from collections import Counter
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -150,12 +150,12 @@ def main() -> int:
             s = f"{datetime.now():%Y-%m-%d} {s}:00"
         elif len(s) <= 16:                          # 秒が無ければ補う
             s = s if s.count(":") == 2 else s + ":00"
-        # ServiceNow の sys_created_on は UTC。JST 入力を UTC へ変換する
+        # gs.dateGenerate() は「セッションのタイムゾーン」で解釈される。
+        # JST セッションなら JST の値をそのまま渡す（UTC 変換してはいけない）。
+        # 2026/8/20: UTC へ変換して渡していたため 9 時間ずれていたのを修正
         jst = datetime.strptime(s, FMT)
-        utc = jst - timedelta(hours=9)
-        query += f"^sys_created_on>=javascript:gs.dateGenerate('{utc:%Y-%m-%d}','{utc:%H:%M:%S}')"
-        print(f"[INFO] 対象を {jst:%Y-%m-%d %H:%M:%S} JST 以降に限定 "
-              f"(UTC {utc:%Y-%m-%d %H:%M:%S})")
+        query += f"^sys_created_on>=javascript:gs.dateGenerate('{jst:%Y-%m-%d}','{jst:%H:%M:%S}')"
+        print(f"[INFO] 対象を {jst:%Y-%m-%d %H:%M:%S} (セッションTZ) 以降に限定")
     print("=" * 68)
     print(f" em_event 到達分析   条件: {query}")
     print("=" * 68)

@@ -18,18 +18,19 @@ ServiceNow 統合管理コンソール導入の **性能・可用性・非正常
 
 | 状態 | 要件 |
 |---|---|
-| 完了・合格 | 1-1 / 1-2 / 1-3 / 1-4 / 2-1 / 3-1 / M-1 |
-| 完了・判定保留 | 2-2 (ServiceNow 側で 54.8% 欠損。dev の MID サイジング要因の可能性) |
+| 完了・合格 | 1-1 / 1-2 / 1-3 / 1-4 / 2-1 / 3-1 / M-1 / **2-2** |
+| 実施中 | 2-2 の追加検証 (コネクタのポーリング間隔 30s → 15s の効果測定) |
 | 未実施 | M-2 / M-3 / 2-3 / 2-4-5 / 2-6 |
 
 ### 環境差分 (重要)
 
-| | dev | nonprod |
-|---|---|---|
-| MID インスタンス | **t3.small** (2 vCPU / **2 GiB**) | t3.large (2 vCPU / 8 GiB) |
-| MID 台数 | 11 台登録・**Up は 1 台** (`mid-server-aws`) | 3 AZ 構成 (stg-1 / stg-2 / stg-3) |
+| | dev (現在) | dev (2026/8/19 まで) | nonprod |
+|---|---|---|---|
+| MID インスタンス | **t3.large** (7 GiB) | t3.small (2 GiB) | t3.large (8 GiB) |
+| MID Java ヒープ | **4096 MB** | 1024 MB | 4096 MB |
+| MID 台数 | `mid-server-zabbix` の 1 台のみ Up | 同左 | 3 AZ 構成 (stg-1 / stg-2 / stg-3) |
 
-**dev は Excel の前提条件「3AZ 全ての MID サーバが稼働中」を満たさない。**
+**dev は Excel の前提条件「3AZ 全ての MID サーバが稼働中」を満たさない (1 台構成)。**
 高負荷系 (2-2 / M-x) の結果を製品の処理能力として報告する際は、この差分を必ず注記する。
 
 ## ディレクトリ構成
@@ -292,6 +293,53 @@ bash /tmp/stress_disk_io.sh 600
 - 2026/8/19 の 2-2 で「13,500 件到達後 46 分間まったく進まない」という**停止**が発生。
   性能不足ではなく処理系の停止を示す挙動で、OOM またはクレジット枯渇が疑われる
 - **高負荷系の結果を製品の限界として報告しないこと。環境差分の注記が必須**
+
+### 18. MID の Java ヒープが処理能力を直接左右する（2026/8/20 実証）
+- EC2 のインスタンスタイプを変えても **`wrapper.java.maxmemory` は自動で変わらない**
+- dev は t3.large 化後も **1024 MB のまま**で、2-2 の 30,000 件投入に対し
+  **13,500 件（54.8% 欠損）で処理が停止**していた
+- **4096 MB に変更しただけで 30,000 件すべて到達・欠損ゼロ**になった
+- 設定は `wrapper.conf` ではなく **`conf/wrapper-override.conf`** に書く
+  （`wrapper.conf` は MID のアップグレードで上書きされる）
+  ```
+  wrapper.java.maxmemory=4096
+  ```
+- 反映確認: `ps aux | grep "[j]ava.*mid" | grep -o "Xmx[0-9]*[mMgG]"`
+
+### 19. MID の conf ディレクトリに他ユーザ所有のファイルを置かない
+- 起動時の `FileSystemPermissionsTest` が conf 配下を全走査し、
+  **読めないファイルが 1 つでもあると `StartupSequencer: test failure` で起動しない**
+- root で `cp` / `sed -i` すると root 所有になり、MID (`mid-server` ユーザ) が読めなくなる
+- 2026/8/20 に `conf/wrapper-override.conf.bak_*` を置いて MID が起動不能になった
+- **バックアップは `/root` や `/tmp` など conf の外に取る**
+- 復旧: `find /opt/midserver/agent/conf -name "*.bak_*" -exec mv {} /root/ \;` +
+  `chown -R mid-server:mid-server /opt/midserver/agent/conf`
+
+### 20. `gs.dateGenerate()` はセッションのタイムゾーンで解釈される
+- `sysparm_query` で `sys_created_on>=javascript:gs.dateGenerate('YYYY-MM-DD','HH:MM:SS')`
+  を使う場合、**JST セッションなら JST の値をそのまま渡す**
+- UTC に変換して渡すと 9 時間ずれる（2026/8/20 に `analyze_arrival.py` で発生）
+- API のレスポンス (`sys_created_on`) は UTC なので、そちらと混同しないこと
+
+### 21. 長時間の投入は nohup / screen で走らせる
+- `send_bulk.py` を前面実行していて **セッション断で 12,600 件（4.2 分）で停止**した
+  （2026/8/20。Zabbix 側の性能問題ではなく単なるプロセス終了）
+- 10 分の投入でも切れるときは切れる
+  ```bash
+  nohup python3 -u send_bulk.py --count 30000 --rate 50 > /tmp/send.log 2>&1 &
+  tail -f /tmp/send.log
+  ```
+- **`-u` を付けないと Python の stdout がバッファされ、ログに何も出ない**
+- 二重投入を防ぐため、再実行前に必ず `ps aux | grep "[s]end_bulk"` で確認する
+
+### 22. 2-2 の再測定は「復旧 → 待ち → 投入」の 3 段構え
+1. `send_bulk.py --value 0` で全トリガーを復旧（10 分）
+2. `count_zabbix_events.py --show-problems` で **PROBLEM が 0 件**を確認
+3. **復旧イベント 30,000 件が ServiceNow に流れ切るまで待つ（30〜40 分）**
+   `watch_em_event.py --once` を数分おきに実行し、件数が動かなくなるまで
+4. その値をベースラインにして投入
+
+3 を省くと復旧イベントが今回分に混ざり、到達数が読めなくなる。
 
 ## 環境変数 (.env)
 

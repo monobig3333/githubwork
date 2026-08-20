@@ -158,17 +158,25 @@ PERF_SUBMIT_MODE=submit pytest 1-4/ -v -s     # 本番 1,000 件（約 42 分）
 `on.py` は 1 件ごとにプロセスを起動するため 12.5 件/秒しか出ず、要件を満たせない。
 
 ```bash
-# Zabbix サーバ側
-python3 send_bulk.py --count 30000 --rate 50 --value 0    # ① 先に復旧（必須）
-python3 send_bulk.py --count 30000 --rate 50              # ② 投入（10 分）
+# --- Zabbix サーバ側（必ず nohup + -u で。前面実行はセッション断で止まる）---
+nohup python3 -u send_bulk.py --count 30000 --rate 50 --value 0 > /tmp/rec.log 2>&1 &   # ① 復旧
+nohup python3 -u send_bulk.py --count 30000 --rate 50 > /tmp/run.log 2>&1 &             # ③ 投入
+tail -f /tmp/run.log        # 表示だけ。Ctrl-C で抜けても投入は止まらない
 
-# Mac 側
+# --- Mac 側 ---
+python3 2-2/count_zabbix_events.py --from "HH:MM" --to "HH:MM" --show-problems  # ② PROBLEM=0 確認
+python3 2-2/watch_em_event.py --once                             # 復旧分が流れ切るまで待つ
 python3 2-2/watch_em_event.py --baseline <N> --interval 30       # 到達モニタ
 python3 2-2/analyze_arrival.py --since "HH:MM"                   # 到達分析
-python3 2-2/count_zabbix_events.py --from "HH:MM" --to "HH:MM"   # Zabbix 側の生成数
 ```
 
-**①の復旧を省くと、トリガーが PROBLEM のままでイベントが生成されない。**
+**手順の順序が重要。**
+
+1. 復旧（10 分）— これを省くとトリガーが PROBLEM のままでイベントが生成されない
+2. PROBLEM が 0 件になったことを確認
+3. **復旧イベント 30,000 件が流れ切るまで待つ（30〜40 分）** — 省くと今回分と混ざる
+4. ベースラインを取って投入
+
 詳細は `2-2/実行ガイド.md`。
 
 ## 要件一覧
@@ -214,4 +222,9 @@ python3 2-2/count_zabbix_events.py --from "HH:MM" --to "HH:MM"   # Zabbix 側の
 | JMeter で 「access_token を取得できない」 | setUp Thread Group のレスポンス確認 | View Results Tree で `/oauth_token.do` のレスポンス確認 |
 | **Zabbix に投入したのにイベントが増えない** | トリガーが PROBLEM のまま | `send_bulk.py --value 0` で先に復旧させる |
 | **Zabbix の `host.get` が 0 件を返す** | `searchWildcardsEnabled` により完全一致になっている | `startSearch: True` を使う |
+| **投入が途中で止まる（Zabbix 生成が中断）** | セッション断でプロセスが終了 | `nohup python3 -u ... &` で実行。`ps aux \| grep "[s]end_bulk"` で稼働確認 |
+| **nohup のログに何も出ない** | Python の stdout がバッファされている | `python3 -u` を付ける |
+| **MID が Down のまま起動しない** | conf 配下に他ユーザ所有のファイルがある | `find .../conf -name "*.bak_*" -exec mv {} /root/ \;` + `chown -R mid-server:mid-server .../conf` |
+| **MID のメモリを増やしても改善しない** | `wrapper.java.maxmemory` が小さいまま | `conf/wrapper-override.conf` に `wrapper.java.maxmemory=4096`。**バックアップは conf の外へ** |
+| **`gs.dateGenerate()` の絞り込みが 9 時間ずれる** | セッションTZで解釈されるのに UTC を渡している | JST の値をそのまま渡す |
 | `jmeter ... -e -o report/` が `folder is not empty` | 前回のレポートが残っている | `-o report_$(date +%Y%m%d)/` のように別フォルダへ出す |

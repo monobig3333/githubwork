@@ -1,0 +1,50 @@
+{
+  "POST /oauth_token.do" : {
+    "transaction" : "POST /oauth_token.do",
+    "sampleCount" : 1,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 444.0,
+    "medianResTime" : 444.0,
+    "minResTime" : 444.0,
+    "maxResTime" : 444.0,
+    "pct1ResTime" : 444.0,
+    "pct2ResTime" : 444.0,
+    "pct3ResTime" : 444.0,
+    "throughput" : 2.2522522522522523,
+    "receivedKBytesPerSec" : 2.9428842905405403,
+    "sentKBytesPerSec" : 0.8335972691441441
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 101,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 237.86138613861394,
+    "medianResTime" : 216.0,
+    "minResTime" : 166.0,
+    "maxResTime" : 593.0,
+    "pct1ResTime" : 341.0,
+    "pct2ResTime" : 397.69999999999965,
+    "pct3ResTime" : 590.6600000000004,
+    "throughput" : 9.0428865610171,
+    "receivedKBytesPerSec" : 45.43520640276658,
+    "sentKBytesPerSec" : 4.718959144730952
+  },
+  "3-1 ワークフロー並列実行 Request" : {
+    "transaction" : "3-1 ワークフロー並列実行 Request",
+    "sampleCount" : 100,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 235.79999999999998,
+    "medianResTime" : 215.0,
+    "minResTime" : 166.0,
+    "maxResTime" : 593.0,
+    "pct1ResTime" : 337.8000000000002,
+    "pct2ResTime" : 358.5999999999999,
+    "pct3ResTime" : 591.8299999999994,
+    "throughput" : 9.936406995230525,
+    "receivedKBytesPerSec" : 50.294036137470194,
+    "sentKBytesPerSec" : 5.2003117547694755
+  }
+}
