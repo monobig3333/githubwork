@@ -1,7 +1,7 @@
 """要件2-6: イベント描画応答時間（高負荷継続30分）
 
 【テスト内容】
-  ①Zabbix から ServiceNow（biglobenonprod / Zurich）へ最大負荷を 30 分間継続投入
+  ①Zabbix から ServiceNow（対象インスタンスは .env 参照 / Zurich）へ最大負荷を 30 分間継続投入
   ②30 分間を通じてイベント受信→描画完了の時間を継続計測
   ③時間経過による性能劣化傾向を分析
 
@@ -67,6 +67,14 @@ IFRAME_CANDIDATES = [
 ]
 
 POLL_INTERVAL_SEC = 0.5
+
+# 同一 sys_created_on（＝同一バッチ）のイベントを 1 件だけ計測するか。
+# 高負荷時は数千件が同一秒に登録されるため、これを 1 件ずつ測ると
+# 「リロード所要 × 件数」がそのまま elapsed に積み上がり、
+# 描画性能ではなく計測ループの所要時間を測ることになる（2026/8/21 実測で判明）。
+# 既定 True。旧来の挙動に戻す場合は PERF_DEDUP_BY_CREATED=0 を指定する。
+DEDUP_BY_CREATED = os.getenv("PERF_DEDUP_BY_CREATED", "1") not in ("0", "false", "False")
+
 EVENT_WAIT_TIMEOUT_SEC = 60
 RENDER_WAIT_TIMEOUT_MS = 240_000
 NAV_TIMEOUT_MS = 30_000
@@ -95,7 +103,8 @@ def _get_user_token(page: Page) -> str | None:
 
 
 def _poll_latest_event(page: Page, since_utc: str, exclude_sys_ids: set[str],
-                       timeout_sec: float, user_token: str | None) -> dict | None:
+                       timeout_sec: float, user_token: str | None,
+                       exclude_created: set[str] | None = None) -> dict | None:
     """`since_utc` より新しく、`exclude_sys_ids` に含まれない em_event を
     sys_created_on **降順** で最大 `timeout_sec` 秒待ち、最も新しい 1 件を返す。
     """
@@ -129,9 +138,15 @@ def _poll_latest_event(page: Page, since_utc: str, exclude_sys_ids: set[str],
                 records = resp.json().get("result", [])
             except Exception:
                 records = []
+            # DEDUP_BY_CREATED=True のときは、既に計測した sys_created_on と
+            # 同一秒のイベントも除外する（同一バッチの重複計測を防ぐ）。
             for rec in records:
-                if rec.get("sys_id") not in exclude_sys_ids:
-                    return rec
+                if rec.get("sys_id") in exclude_sys_ids:
+                    continue
+                if (DEDUP_BY_CREATED and exclude_created
+                        and rec.get("sys_created_on") in exclude_created):
+                    continue
+                return rec
         else:
             if warned_status != resp.status:
                 logger.warning(
@@ -217,9 +232,15 @@ def _wait_for_event_in_dom(page: Page, iframe_sel: str, event: dict) -> bool:
 @pytest.mark.perf
 @pytest.mark.high_load
 def test_event_render_sustained_30min(authed_page):
-    assert "biglobenonprod" in settings.snow_base_url, (
-        f"このテストは biglobenonprod 用です。base_url={settings.snow_base_url}"
+    # 対象インスタンスは .env の SNOW_INSTANCE / SNOW_BASE_URL で決まる。
+    # 誤ったインスタンスへの実行を防ぐため、期待値を PERF_EXPECTED_INSTANCE で指定できる
+    # （未指定なら .env の設定をそのまま採用）。2026/8/21: biglobenonprod 固定を解除
+    _expected = os.getenv("PERF_EXPECTED_INSTANCE", settings.snow_instance)
+    assert _expected in settings.snow_base_url, (
+        f"対象インスタンスが期待値と異なります。expected={_expected} "
+        f"base_url={settings.snow_base_url}"
     )
+    logger.info("対象インスタンス: %s", settings.snow_base_url)
     logger.info("ServiceNow base_url=%s", settings.snow_base_url)
     logger.info("DURATION_SEC=%d  MAX_ITERATIONS=%d", DURATION_SEC, MAX_ITERATIONS)
 
@@ -234,7 +255,7 @@ def test_event_render_sustained_30min(authed_page):
     sync_msg = (
         "\n"
         "==================================================================\n"
-        " 要件 2-6 イベント描画応答時間（高負荷継続30分） [biglobenonprod / Zurich]\n"
+        " 要件 2-6 イベント描画応答時間（高負荷継続30分） [対象インスタンスは .env 参照 / Zurich]\n"
         "==================================================================\n"
         " 別端末で Zabbix の高負荷投入を 30 分間継続できる設定で起動してください。\n"
         " ServiceNow にイベントが流れ始めたら Enter を押すと計測開始します。\n"
@@ -255,6 +276,7 @@ def test_event_render_sustained_30min(authed_page):
     # ---- 4. 計測ループ ----
     samples: list[dict] = []
     measured_sys_ids: set[str] = set()
+    measured_created: set[str] = set()   # 同一バッチ除外用
     overall_deadline = test_start_epoch + DURATION_SEC
 
     while len(samples) < MAX_ITERATIONS and time.time() < overall_deadline:
@@ -266,6 +288,7 @@ def test_event_render_sustained_30min(authed_page):
             page, test_start_utc, measured_sys_ids,
             min(EVENT_WAIT_TIMEOUT_SEC, remain),
             user_token,
+            exclude_created=measured_created,
         )
         if not event:
             logger.warning("一定時間 未計測の新規イベントが届かず。次の反復へ。")
@@ -273,6 +296,7 @@ def test_event_render_sustained_30min(authed_page):
 
         t_received = _parse_utc(event["sys_created_on"])
         measured_sys_ids.add(event["sys_id"])
+        measured_created.add(event["sys_created_on"])
 
         try:
             page.reload(wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)

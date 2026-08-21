@@ -54,3 +54,55 @@ jmeter -g 1-2/runs/runN_*.jtl -o 1-2/report \
   -Jjmeter.reportgenerator.apdex_satisfied_threshold=1000 \
   -Jjmeter.reportgenerator.apdex_tolerated_threshold=3000
 ```
+
+
+---
+
+## 再測定 2026/8/19 (biglobedev)
+
+### 判定: **OK**
+
+### 試験条件
+
+- 同時接続: 165 スレッド / ランプアップ 60 秒 / 10 ループ（総 1,650 リクエスト）
+- API: `GET /api/now/table/incident?sysparm_limit=20`
+- コマンド: `-Jthreads=165 -Jramp_up=60 -Jloop.count=10`
+
+### 結果
+
+| 指標 | 実測 |
+|---|---|
+| 総リクエスト数 | 1,651 |
+| レスポンスコード | 200 × 1,651 |
+| **失敗** | **0 件** |
+| 平均応答時間 | 316 ms |
+| 中央値 | 281 ms |
+| 90 パーセンタイル | 479 ms |
+| 95 パーセンタイル | 591 ms |
+| 99 パーセンタイル | 753 ms |
+| 最大応答時間 | 2,474 ms |
+| **3 秒超過** | **0 件** |
+| 実行時間 | 78 秒 |
+| スループット | 21.1 req/s |
+
+### 判定理由
+
+- 165 クライアント同時接続で **HTTP エラー 0 件**、接続拒否・タイムアウトなし
+- **全 1,650 リクエストが 3 秒以内**（最大 2,474 ms、99%tile 753 ms）
+- 前回（2026/5/18・同 dev）は 3 秒超過 3 件・平均 1,375 ms の「実用判定」での合格だったが、
+  今回は厳格な「全件 3 秒以内」を満たしており、明確に改善している
+
+
+### 実施情報
+
+| 項目 | 内容 |
+|---|---|
+| 実施日 | 2026/08/19 |
+| 実施時刻 | 13:48:08 〜 13:49:26 |
+| 対象インスタンス | biglobedev (Zurich) |
+| 認証方式 | OAuth Client Credentials (Bearer Token) |
+| ツール | Apache JMeter 5.6.3 |
+| 元ログ | `1-2/runs/run_20260819_134803.jtl` |
+
+> dev の MID Server は 1 台構成 (t3.large / ヒープ 4096 MB)。Excel の前提条件
+> 「3AZ 全ての MID サーバが稼働中」は満たしていない。

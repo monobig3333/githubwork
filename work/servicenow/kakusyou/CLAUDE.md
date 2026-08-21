@@ -18,9 +18,12 @@ ServiceNow 統合管理コンソール導入の **性能・可用性・非正常
 
 | 状態 | 要件 |
 |---|---|
-| 完了・合格 | 1-1 / 1-2 / 1-3 / 1-4 / 2-1 / 3-1 / M-1 / **2-2** |
-| 実施中 | 2-2 の追加検証 (コネクタのポーリング間隔 30s → 15s の効果測定) |
-| 未実施 | M-2 / M-3 / 2-3 / 2-4-5 / 2-6 |
+| 完了・合格 (11 件) | 1-1 / 1-2 / 1-3 / 1-4 / 2-1 / **2-2** / **2-3** / 3-1 / M-1 / **M-2** / **M-3** |
+| 再測定が必要 | **2-4/5** (計測ロジックの不備を修正済み。要再実施) |
+| 未実施 | **2-6** |
+| 対象外 | M-10 (外部試験) |
+
+Excel への記入も 11 件分完了 (2026/8/21 時点)。
 
 ### 環境差分 (重要)
 
@@ -341,6 +344,35 @@ bash /tmp/stress_disk_io.sh 600
 
 3 を省くと復旧イベントが今回分に混ざり、到達数が読めなくなる。
 
+### 23. 2-4/5・2-6 は同一バッチを 1 件ずつ測ると値が壊れる（2026/8/21・重要）
+- 高負荷時、ServiceNow は**数千件を同一秒に登録**する（`sys_created_on` が同値）
+- 従来の実装は未計測のイベントを 1 件ずつ「リロード → DOM 検知」していたため、
+  **同一バッチの N 件目は `elapsed ≒ リロード所要 × N`** になる。描画性能ではなく
+  計測ループの所要時間を測っていた
+- 実測例: 全 50 件で平均 62.87 秒 / 最大 198.01 秒 → **バッチ初回のみ**に絞ると
+  平均 **2.22 秒** / 最大 **2.99 秒**（14 バッチすべて 1.6〜3.0 秒）
+- 同一 `sys_created_on` を 1 件だけ計測する `DEDUP_BY_CREATED` を導入（既定 True）。
+  旧挙動は `PERF_DEDUP_BY_CREATED=0`
+- **前回 (2026/6/3・nonprod) の平均 59.60 秒も同じアーティファクトを含んでいる**
+
+### 24. 2-3 / 2-4-5 / 2-6 の nonprod 固定ガード（解除済み）
+- 3 本とも `assert "biglobenonprod" in settings.snow_base_url` が入っており dev で動かなかった
+- `.env` の `SNOW_INSTANCE` を期待値とし、`PERF_EXPECTED_INSTANCE` で上書きできる方式に変更
+
+### 25. Settings の秘匿値が pytest の失敗時に平文で出る（対策済み）
+- アサーション失敗時に `Settings(...)` が展開され `snow_password` がそのまま表示されていた
+- `_common/config.py` で `snow_password` / `snow_client_id` / `snow_client_secret` を
+  `field(..., repr=False)` に変更
+
+### 26. Zabbix への投入は必ず Zabbix サーバ上で実行する
+- `send_bulk.py` は `zabbix_sender` を localhost に対して実行するツール。
+  Mac で走らせても `No such file or directory` で即失敗する（2026/8/21 に発生）
+- Mac 側で行うのはモニタ（`watch_em_event.py`）と分析のみ
+
+### 27. 2-3 は計測件数に対して十分な投入量を確保する
+- 20 件の計測に対し 200 件（1 件/秒 = 200 秒）では足りず、19 件目でタイムアウトした
+- **400 件（約 7 分）**あれば余裕を持って完走する
+
 ## 環境変数 (.env)
 
 ```
@@ -404,6 +436,9 @@ soffice --headless --convert-to pdf 性能・可用性・非正常系試験_評�
 | 到達分析 | `python3 2-2/analyze_arrival.py --since "HH:MM" --json 2-2/result_2_2.json` |
 | Zabbix 側の生成数確認 | `python3 2-2/count_zabbix_events.py --from "HH:MM" --to "HH:MM" --show-problems` |
 | 1-4 の 1,000 件起票 | `PERF_SUBMIT_MODE=submit pytest 1-4/ -v -s` |
+| 2-3 の計測 | `pytest 2-3/ -v -s` + Zabbix で `send_bulk.py --start 1 --count 400 --rate 1` |
+| 2-4/5 の計測 | `pytest 2-4-5/ -v -s` + Zabbix で `send_bulk.py --count 30000 --rate 50` |
+| Zabbix トリガー復旧 | `nohup python3 -u send_bulk.py --count 30000 --rate 50 --value 0 &` |
 | 非正常系試験 N-1 | `python3 N-common/verify_continuity.py --label N-1 ...` + MID で `bash N-1/stress_disk_io.sh 600` |
 | Zabbix コネクタ確認 | `python3 N-common/check_zabbix_connector.py --name zabbix` |
 | Excel に試験結果書き込み | M-9 行をテンプレに copy_style + 実施日は `YYYY/M/D` 文字列 |

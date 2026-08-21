@@ -1,7 +1,7 @@
 """要件2-3: イベント描画応答時間（通常時） - Zabbix外部投入版 (Zurich対応)
 
 【テスト内容】
-  ①Zabbix から ServiceNow（biglobenonprod / Zurich）へ標準負荷でイベントを流す
+  ①Zabbix から ServiceNow（対象インスタンスは .env 参照 / Zurich）へ標準負荷でイベントを流す
   ②イベント受信からイベントビューワー描画完了までの時間を 20 回計測
 
 【合否判定基準】
@@ -36,6 +36,7 @@
 from __future__ import annotations
 
 import json
+import os
 import logging
 import time
 from datetime import datetime, timezone
@@ -233,9 +234,15 @@ def _wait_for_event_in_dom(page: Page, iframe_sel: str, event: dict) -> bool:
 # ---------- テスト本体 ----------
 @pytest.mark.perf
 def test_event_render_time(authed_page):
-    assert "biglobenonprod" in settings.snow_base_url, (
-        f"このテストは biglobenonprod 用です。現在の base_url={settings.snow_base_url}"
+    # 対象インスタンスは .env の SNOW_INSTANCE / SNOW_BASE_URL で決まる。
+    # 誤ったインスタンスへの実行を防ぐため、期待値を PERF_EXPECTED_INSTANCE で指定できる
+    # （未指定なら .env の設定をそのまま採用）。2026/8/21: biglobenonprod 固定を解除
+    _expected = os.getenv("PERF_EXPECTED_INSTANCE", settings.snow_instance)
+    assert _expected in settings.snow_base_url, (
+        f"対象インスタンスが期待値と異なります。expected={_expected} "
+        f"base_url={settings.snow_base_url}"
     )
+    logger.info("対象インスタンス: %s", settings.snow_base_url)
     logger.info("ServiceNow base_url=%s", settings.snow_base_url)
 
     page = authed_page
@@ -249,7 +256,7 @@ def test_event_render_time(authed_page):
     sync_msg = (
         "\n"
         "==================================================================\n"
-        " 要件 2-3 イベント描画応答時間（通常時） [biglobenonprod / Zurich]\n"
+        " 要件 2-3 イベント描画応答時間（通常時） [対象インスタンスは .env 参照 / Zurich]\n"
         "==================================================================\n"
         " 別端末で Zabbix の負荷投入スクリプトを起動してください。\n"
         " ServiceNow にイベントが流れ始めたら Enter を押すと計測開始します。\n"

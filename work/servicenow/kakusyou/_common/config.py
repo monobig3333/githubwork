@@ -1,6 +1,6 @@
 """環境変数からテスト設定を読み込む"""
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 try:
@@ -18,10 +18,11 @@ class Settings:
     snow_base_url: str = os.getenv(
         "SNOW_BASE_URL", f"https://{os.getenv('SNOW_INSTANCE', 'biglobedev')}.service-now.com"
     )
-    snow_client_id: str = os.getenv("SNOW_CLIENT_ID", "")
-    snow_client_secret: str = os.getenv("SNOW_CLIENT_SECRET", "")
+    snow_client_id: str = field(default_factory=lambda: os.getenv("SNOW_CLIENT_ID", ""), repr=False)
+    snow_client_secret: str = field(default_factory=lambda: os.getenv("SNOW_CLIENT_SECRET", ""), repr=False)
     snow_user: str = os.getenv("SNOW_USER", "")
-    snow_password: str = os.getenv("SNOW_PASSWORD", "")
+    # repr=False: pytest のアサーション失敗時などに平文で出力されるのを防ぐ (2026/8/21)
+    snow_password: str = field(default_factory=lambda: os.getenv("SNOW_PASSWORD", ""), repr=False)
     aws_region: str = os.getenv("AWS_REGION", "ap-northeast-1")
     snow_secret_name: str = os.getenv(
         "SNOW_SECRET_NAME",

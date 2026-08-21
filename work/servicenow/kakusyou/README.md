@@ -179,6 +179,37 @@ python3 2-2/analyze_arrival.py --since "HH:MM"                   # 到達分析
 
 詳細は `2-2/実行ガイド.md`。
 
+### 2-3 / 2-4-5 / 2-6（描画応答時間・2 端末同期）
+
+Mac で pytest を起動し `Enter で計測開始 >` で待機 → Zabbix サーバで投入 → Mac で Enter、の順。
+
+```bash
+# --- 2-3 通常時（20 回計測・閾値 3 秒）---
+pytest 2-3/ -v -s
+python3 send_bulk.py --start 1 --count 400 --rate 1      # Zabbix 側・1 件/秒
+
+# --- 2-4/5 高負荷時（600 秒・最大 50 件・平均 60 秒 / 最大 180 秒）---
+pytest 2-4-5/ -v -s
+nohup python3 -u send_bulk.py --count 30000 --rate 50 &  # Zabbix 側
+
+# --- 2-6 高負荷継続 30 分 ---
+pytest 2-6/ -v -s
+nohup python3 -u send_bulk.py --count 90000 --rate 50 &  # Zabbix 側
+```
+
+| 環境変数 | 用途 |
+|---|---|
+| `PERF_EXPECTED_INSTANCE` | 対象インスタンスの期待値（既定は `.env` の `SNOW_INSTANCE`） |
+| `PERF_DURATION_SEC` / `PERF_MAX_ITER` | 計測時間・件数の上書き |
+| `PERF_DEDUP_BY_CREATED` | `0` で旧挙動（同一バッチを 1 件ずつ計測）に戻す |
+
+**投入量は計測件数に対して十分な余裕を持たせること。** 2-3 で 20 件計測するのに
+200 件（200 秒）では足りず、19 件目でタイムアウトした実績がある。
+
+> ⚠️ 高負荷時、ServiceNow は数千件を同一秒に登録する。これを 1 件ずつ計測すると
+> `elapsed ≒ リロード所要 × 件数` になり描画性能を測れない。そのため既定で
+> **同一 `sys_created_on` は 1 件のみ計測**する（`DEDUP_BY_CREATED`、2026/8/21 導入）。
+
 ## 要件一覧
 
 | 要件No | 区分 | テスト項目 | ツール |
@@ -228,3 +259,8 @@ python3 2-2/analyze_arrival.py --since "HH:MM"                   # 到達分析
 | **MID のメモリを増やしても改善しない** | `wrapper.java.maxmemory` が小さいまま | `conf/wrapper-override.conf` に `wrapper.java.maxmemory=4096`。**バックアップは conf の外へ** |
 | **`gs.dateGenerate()` の絞り込みが 9 時間ずれる** | セッションTZで解釈されるのに UTC を渡している | JST の値をそのまま渡す |
 | `jmeter ... -e -o report/` が `folder is not empty` | 前回のレポートが残っている | `-o report_$(date +%Y%m%d)/` のように別フォルダへ出す |
+| **2-4/5・2-6 の平均が異常に大きい** | 同一 `sys_created_on` のイベントを 1 件ずつ計測している | `DEDUP_BY_CREATED`（既定 True）で 1 バッチ 1 件に |
+| **`pytest 2-x/` が「biglobenonprod 用です」で落ちる** | インスタンス固定のガード（2026/8/21 に解除） | `.env` の `SNOW_INSTANCE` を確認。必要なら `PERF_EXPECTED_INSTANCE` |
+| **pytest の失敗出力にパスワードが出る** | `Settings` の repr に含まれていた（対策済み） | `_common/config.py` で `repr=False` 済み |
+| **`send_bulk.py` が `No such file or directory`** | Mac 側で実行している | **Zabbix サーバ上**で実行する |
+| 2-3 が 19/20 件でタイムアウト | 投入量が計測件数に対して不足 | `--count 400 --rate 1` 程度に増やす |

@@ -52,3 +52,58 @@ jmeter -n -t 1-3/1-3_concurrent_330_readonly.jmx \
   -Jthroughput=1200 \
   -l 1-3/runs/runN_$(date +%Y%m%d_%H%M%S).jtl
 ```
+
+
+---
+
+## 再測定 2026/8/19 (biglobedev)
+
+### 判定: **OK**
+
+### 試験条件
+
+- 同時接続: 330 スレッド / ランプアップ 120 秒 / 10 ループ（総 3,300 リクエスト）
+- 流量制御: Constant Throughput Timer 1,200/分（= 20 req/s）
+- API: `GET /api/now/table/incident?sysparm_limit=20&sysparm_fields=...`
+- コマンド: `-Jthreads=330 -Jramp_up=120 -Jloop.count=10 -Jthroughput=1200`
+
+### 結果
+
+| 指標 | 実測 |
+|---|---|
+| 総リクエスト数 | 3,301 |
+| レスポンスコード | 200 × 3,301 |
+| **失敗** | **0 件** |
+| 平均応答時間 | 100 ms |
+| 中央値 | 87 ms |
+| 90 パーセンタイル | 149 ms |
+| 95 パーセンタイル | 173 ms |
+| 99 パーセンタイル | 237 ms |
+| 最大応答時間 | 1,215 ms |
+| **3 秒超過** | **0 件** |
+| 実行時間 | 151 秒 |
+| スループット | 21.8 req/s |
+
+### 判定理由
+
+- 330 クライアント同時接続で **HTTP エラー 0 件**、接続拒否・タイムアウトなし
+- **HTTP 429（Zscaler のレート制限）も 0 件**
+- 全リクエストが 3 秒以内（最大 1,215 ms）
+
+
+> Constant Throughput Timer による流量制御は前回同条件。Zscaler ZIA 経由の試験ネットワークでは
+> 流量を抑制しないと 429 が多発するため、「同時セッション保持・エラー無し」で評価する方式を踏襲している。
+
+### 実施情報
+
+| 項目 | 内容 |
+|---|---|
+| 実施日 | 2026/08/19 |
+| 実施時刻 | 13:50:29 〜 13:53:00 |
+| 対象インスタンス | biglobedev (Zurich) |
+| 認証方式 | OAuth Client Credentials (Bearer Token) |
+| ツール | Apache JMeter 5.6.3 |
+| 元ログ | `1-3/runs/run_20260819_135027.jtl` |
+
+> dev の MID Server は 1 台構成 (t3.large / ヒープ 4096 MB)。Excel の前提条件
+> 「3AZ 全ての MID サーバが稼働中」は満たしていない。
